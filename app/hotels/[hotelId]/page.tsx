@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 // import Caroussel from '@/components/caroussel';
 import dynamic from 'next/dynamic';
+import { differenceInDays, parse, parseISO } from 'date-fns';
 
 const Caroussel = dynamic(() => import('@/components/caroussel'), { ssr: false });
 
@@ -30,9 +31,10 @@ const Caroussel = dynamic(() => import('@/components/caroussel'), { ssr: false }
 //   }));
 // }
 //  -----------------------------------------------------
-async function getHotel(hotelId: string) {
+async function getHotel(hotelId: string, searchParams: { [key: string]: string | string[] | undefined }) {
   try {
-    const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}`, { cache: 'no-store' });
+    const queryString = new URLSearchParams(searchParams as Record<string, string>).toString();
+    const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
     if (!res.ok) {
       throw new Error(`Failed to fetch hotel: ${res.status}`);
     }
@@ -63,8 +65,8 @@ async function getHotel(hotelId: string) {
 //   }
 // }
 
-export default async function HotelPage({ params }: { params: { hotelId: string } }) {
-  const hotel = await getHotel(params.hotelId);
+export default async function HotelPage({ params, searchParams }: { params: { hotelId: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
+  const hotel = await getHotel(params.hotelId, searchParams);
 
   if (!hotel) {
     console.log(hotel);
@@ -74,9 +76,26 @@ export default async function HotelPage({ params }: { params: { hotelId: string 
     console.log(hotel);
   }
 
+  const { rooms, adults, children, start, end } = searchParams;
+
+  // Convert string parameters to numbers
+  const roomsNum = Number(rooms);
+  const adultsNum = Number(adults);
+  const childrenNum = Number(children);
+
+  // Calculate the number of booking days
+  let bookingNights = 0;
+  if (start && end && typeof start === 'string' && typeof end === 'string') {
+    const startDate = parse(start, 'dd/MM/yyyy', new Date());
+    const endDate = parse(end, 'dd/MM/yyyy', new Date());
+    bookingNights = differenceInDays(endDate, startDate);
+  }
+
   return (
     <div className='p-5'>
       <h1 className='underline underline-offset-4 decoration- decoration-2 decoration-primary pb-4'><span className='text-secondary font-bold'>L'Hôtel Karibu</span> - {hotel.capital || 'Not Available'} ({hotel.country || 'Not Available'})</h1>
+      {/* <p className='text-red-500 py-4'>Recherche : {rooms} {Number(rooms)>1 ? 'chambres' :'chambre'}, {adults} {Number(adults)>1 ? 'adultes' :'adulte'}, {children} {Number(children)>1 ? 'enfants' :'enfant'}, du {start} au {end} = {(Number(end)-Number(start)/3600)}h</p> */}
+      <p className='text-red-500 py-4'>Recherche : {roomsNum} chambre{roomsNum>1 ? 's' :''}, {adultsNum} adulte{adultsNum>1 ? 's' :''}, {childrenNum} enfant{childrenNum>1 ? 's' :''}, du {start} au {end} = {bookingNights} nuit{bookingNights>1 ? 's' : ''}</p>
       {hotel.Rooms && hotel.Rooms.length > 0 ? (
         <>
           <div className='flex flex-col gap-8'>
@@ -104,9 +123,15 @@ export default async function HotelPage({ params }: { params: { hotelId: string 
                         </Link>
                       </div>
                       <div className='w-full flex justify-between'>
-                        <p className='content-center'>{room.cost} €/nuit</p>
-                        <p className='content-center'> nombre nuits</p>
-                        <p className='underline underline-offset-4 content-center'>Total: somme €</p>
+                        <p className='underline underline-offset-4 content-center'>{room.cost} €/nuit</p>
+                        {bookingNights && bookingNights ? (
+                          <>
+                            <p className='content-center'> {bookingNights} nuits</p>
+                            <p className='content-center'>Total: {bookingNights*room.cost} €</p>
+                          </>
+                        ) : (
+                          <p className='text-red-500 content-center'>Choisissez une période</p>
+                        )}
                       </div>
                     </div>
                   </div>

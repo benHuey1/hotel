@@ -35,7 +35,7 @@ const SearchBooking = ({ countries }: { countries: Hotel[] }) => {
     // }
     if (selectedCountry) {
       console.log('Selected hotel ID:', selectedCountry.id);
-      router.push(`/hotels/${selectedCountry.id}`);
+      router.push(`/hotels/${selectedCountry.id}?rooms=${room}&adults=${family.adults}&children=${family.children}&start=${dateRange.startDate?.toLocaleDateString().split('T')[0]}&end=${dateRange.endDate?.toLocaleDateString().split('T')[0]}`);
     } else {
       alert('Please select a country/hotel first.');
     }

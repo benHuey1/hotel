@@ -4,6 +4,9 @@ const nextConfig = {
   images: {
     domains: ['images.unsplash.com'],
   },
+  experimental: {
+    appDir: true, // to allow query parameters through the URL:
+  },
 };
 
 module.exports = nextConfig;

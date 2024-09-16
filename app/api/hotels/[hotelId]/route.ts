@@ -32,6 +32,12 @@ import prisma from '@/lib/prisma';
 
 export async function GET(request: Request, { params }: { params: { hotelId: string } }) {
   const hotelId = params.hotelId;
+  const { searchParams } = new URL(request.url);
+  const rooms = parseInt(searchParams.get('rooms') || '0');
+  const adults = parseInt(searchParams.get('adults') || '0');
+  const children = parseInt(searchParams.get('children') || '0');
+  const start = searchParams.get('start');
+  const end = searchParams.get('end');
   try {
     const hotel = await prisma.hotels.findUnique({
       where: { id: hotelId },
