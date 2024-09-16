@@ -33,6 +33,6 @@ Here's my project of a hotel located in different continent. The user can book a
 - Booking ⚠️
 - Contact form ⚠️
 - Hashed password ⚠️
-- API ⚠️
+- API ✅
 - Payment method ⚠️
 - Calendar ⚠️
