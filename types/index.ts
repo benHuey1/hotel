@@ -18,6 +18,16 @@ export interface DropdownChoiceProps {
   items: DropdownItem[];
 }
 
+export interface PopoverCountriesProps {
+  // Define the expected props here
+  classNameTrigger?: string;
+  countries: Hotel[];
+  //  setCountry: React.Dispatch<React.SetStateAction<Hotel[]>>;
+  selectedCountry: Hotel | null;
+  setSelectedCountry: React.Dispatch<React.SetStateAction<Hotel | null>>;
+  // Other props...
+}
+
 // export type SelectKeys = Set<string>
 
 // Types Hotel
