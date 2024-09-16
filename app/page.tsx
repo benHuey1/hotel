@@ -10,7 +10,7 @@ import { title, subtitle } from '@/components/primitives';
 import Image from 'next/image';
 import SearchBooking from '@/components/search-booking';
 import { PrismaClient } from '@prisma/client';
-import HotelList from '@/components/hotel-list';
+import HotelsList from '@/components/hotels-list';
 import { Hotel } from '@/types';
 
 const prisma = new PrismaClient();
@@ -123,7 +123,7 @@ export default async function Home() {
       <div className="flex w-full flex-col items-start p-8">
         <p className="text-lg">Nos hôtels</p>
         <div className="flex w-full justify-center">
-          <HotelList hotels={hotels} />
+          <HotelsList hotels={hotels} />
         </div>
       </div>
       <div className="flex w-full flex-col items-start p-8">

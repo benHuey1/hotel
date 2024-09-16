@@ -1,14 +1,12 @@
-// components/Hotels.tsx
-
 import React from 'react';
 import { Hotel } from '@/types/index';
 import styles from './style.module.scss';
 
-interface HotelListProps {
+interface HotelsListProps {
   hotels: Hotel[];
 }
 
-const HotelList: React.FC<HotelListProps> = ({ hotels }) => {
+const HotelsList: React.FC<HotelsListProps> = ({ hotels }) => {
   return (
     <div>
       <div className={styles.cards}>
@@ -29,4 +27,4 @@ const HotelList: React.FC<HotelListProps> = ({ hotels }) => {
   );
 };
 
-export default HotelList;
+export default HotelsList;

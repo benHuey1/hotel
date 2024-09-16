@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 // import SelectCountry from "./ui/select-city";
 import DateRangePickerBooking from './ui/date-range-picker-booking';
-import Countries, { Hotel } from '@/api/countries';
+// import Countries, { Hotel } from '@/api/countries';
 import prisma from '@/lib/prisma';
 import PopoverFamily from './ui/popover-family';
 import PopoverRoom from './ui/popover-room';
@@ -11,6 +11,8 @@ import { MagnifierIcon } from './icons';
 import { Image } from '@nextui-org/react';
 import { DateRange } from 'react-day-picker';
 import { useRouter } from 'next/navigation';
+import CountriesList from './countries-list';
+import { Hotel } from '@/types';
 
 const SearchBooking = ({ countries }: { countries: Hotel[] }) => {
   const [room, setRoom] = useState(0);
@@ -81,7 +83,7 @@ const SearchBooking = ({ countries }: { countries: Hotel[] }) => {
             setFamily={setFamily}
             classNameTrigger="w-3/4 sm:w-[60%] h-16 sm:h-1/6 rounded-lg sm:rounded-l-none bg-white border-[#F9A72B] border-4 border-y-2 sm:border-4 sm:border-l-2 sm:border-t-2 sm:border-b-2"
           />
-          <Countries
+          <CountriesList
             countries={countries}
             selectedCountry={selectedCountry}
             setSelectedCountry={setSelectedCountry}
