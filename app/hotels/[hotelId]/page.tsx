@@ -92,64 +92,69 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
   }
 
   return (
-    <div className='p-5'>
-      <h1 className='underline underline-offset-4 decoration- decoration-2 decoration-primary pb-4'><span className='text-secondary font-bold'>L'Hôtel Karibu</span> - {hotel.capital || 'Not Available'} ({hotel.country || 'Not Available'})</h1>
-      {/* <p className='text-red-500 py-4'>Recherche : {rooms} {Number(rooms)>1 ? 'chambres' :'chambre'}, {adults} {Number(adults)>1 ? 'adultes' :'adulte'}, {children} {Number(children)>1 ? 'enfants' :'enfant'}, du {start} au {end} = {(Number(end)-Number(start)/3600)}h</p> */}
-      <p className='text-red-500 py-4'>Recherche : {roomsNum} chambre{roomsNum>1 ? 's' :''}, {adultsNum} adulte{adultsNum>1 ? 's' :''}, {childrenNum} enfant{childrenNum>1 ? 's' :''}, du {start} au {end} = {bookingNights} nuit{bookingNights>1 ? 's' : ''}</p>
-      {hotel.Rooms && hotel.Rooms.length > 0 ? (
-        <>
-          <div className='flex flex-col gap-8'>
-            {hotel.Rooms.map((room: Room, index: number) => (
-                // <div className='w-full flex flex-col md:flex-row hover:outline outline-secondary outline-offset-4 rounded-lg'>
-                <div className='w-full flex flex-col md:flex-row hover:outline outline-transparent hover:outline-secondary outline-offset-4 transition-all duration-300 ease-in-out'>
-                  {room.pictures && room.pictures.length > 0 && <div className="w-full md:w-1/2 rounded-lg"><Caroussel pictures={room.pictures} /></div>}
-                  <div key={room.id} className='w-full md:w-1/2 flex flex-col md:justify-between p-2 gap-4'>
-                    <div>
-                      <h3 className="text-secondary flex gap-2">
-                        {room.type} - {room.capacity} <PersonIcon />
-                      </h3>
-                      <h4 className='text-secondary'>{hotel.country}</h4>
-                    </div>
-                    <p>
-                      Options:{' '}
-                      {room.options && room.options.length > 0
-                        ? room.options.map((option: Option) => option.name).join(', ')
-                        : 'Aucune'}
-                    </p>
-                    <div className='flex flex-col-reverse md:flex-row md:justify-start gap-4'>
-                      <div className='w-full md:w-1/5 text-center'>
-                        <Link href={`/hotels/${hotel.id}/rooms/${room.id}`}>
-                          <Button color="secondary">Détails</Button>
-                        </Link>
+    <div className='w-full h-full flex flex-col md:flex-row'>
+      <div className='w-full md:w-1/6 h-20 md:h-screen bg-secondary'>
+        Filtres
+      </div>
+      <div className='w-full h-full md:w-5/6  p-5'>
+        <h1 className='underline underline-offset-4 decoration- decoration-2 decoration-primary pb-4'><span className='text-secondary font-bold'>L'Hôtel Karibu</span> - {hotel.capital || 'Not Available'} ({hotel.country || 'Not Available'})</h1>
+        {/* <p className='text-red-500 py-4'>Recherche : {rooms} {Number(rooms)>1 ? 'chambres' :'chambre'}, {adults} {Number(adults)>1 ? 'adultes' :'adulte'}, {children} {Number(children)>1 ? 'enfants' :'enfant'}, du {start} au {end} = {(Number(end)-Number(start)/3600)}h</p> */}
+        <p className='text-red-500 py-4'>Recherche : {roomsNum} chambre{roomsNum>1 ? 's' :''}, {adultsNum} adulte{adultsNum>1 ? 's' :''}, {childrenNum} enfant{childrenNum>1 ? 's' :''}, du {start} au {end} = {bookingNights} nuit{bookingNights>1 ? 's' : ''}</p>
+        {hotel.Rooms && hotel.Rooms.length > 0 ? (
+          <>
+            <div className='flex flex-col gap-8'>
+              {hotel.Rooms.map((room: Room, index: number) => (
+                  // <div className='w-full flex flex-col md:flex-row hover:outline outline-secondary outline-offset-4 rounded-lg'>
+                  <div className='w-full flex flex-col md:flex-row hover:outline outline-transparent hover:outline-secondary outline-offset-4 transition-all duration-300 ease-in-out'>
+                    {room.pictures && room.pictures.length > 0 && <div className="w-full md:w-1/2 rounded-lg"><Caroussel pictures={room.pictures} /></div>}
+                    <div key={room.id} className='w-full md:w-1/2 flex flex-col md:justify-between p-2 gap-4'>
+                      <div>
+                        <h3 className="text-secondary flex gap-2">
+                          {room.type} - {room.capacity} <PersonIcon />
+                        </h3>
+                        <h4 className='text-secondary'>{hotel.country}</h4>
                       </div>
-                      <div className='w-full flex justify-between'>
-                        <p className='underline underline-offset-4 content-center'>{room.cost} €/nuit</p>
-                        {bookingNights && bookingNights ? (
-                          <>
-                            <p className='content-center'> {bookingNights} nuits</p>
-                            <p className='content-center'>Total: {bookingNights*room.cost} €</p>
-                          </>
-                        ) : (
-                          <p className='text-red-500 content-center'>Choisissez une période</p>
-                        )}
+                      <p>
+                        Options:{' '}
+                        {room.options && room.options.length > 0
+                          ? room.options.map((option: Option) => option.name).join(', ')
+                          : 'Aucune'}
+                      </p>
+                      <div className='flex flex-col-reverse md:flex-row md:justify-start gap-4'>
+                        <div className='w-full md:w-1/5 text-center'>
+                          <Link href={`/hotels/${hotel.id}/rooms/${room.id}`}>
+                            <Button color="secondary">Détails</Button>
+                          </Link>
+                        </div>
+                        <div className='w-full flex justify-between'>
+                          <p className='underline underline-offset-4 content-center'>{room.cost} €/nuit</p>
+                          {bookingNights && bookingNights ? (
+                            <>
+                              <p className='content-center'> {bookingNights} nuits</p>
+                              <p className='content-center'>Total: {bookingNights*room.cost} €</p>
+                            </>
+                          ) : (
+                            <p className='text-red-500 content-center'>Choisissez une période</p>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        <p>Pas de chambres disponibles</p>
-      )}
-      <Link href="/">
-        <Button
-          className="bg-tertiary text-white hover:bg-gray-500"
-          startContent={<ArrowBackIcon fillColor="white" />}
-        >
-          Accueil
-        </Button>
-      </Link>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p>Pas de chambres disponibles</p>
+        )}
+        <Link href="/">
+          <Button
+            className="bg-tertiary text-white hover:bg-gray-500"
+            startContent={<ArrowBackIcon fillColor="white" />}
+          >
+            Accueil
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }
