@@ -27,8 +27,9 @@
 //     return NextResponse.json({ error: 'Failed to fetch hotel' }, { status: 500 });
 //   }
 // }
+import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+// import prisma from '@/lib/prisma';
 
 export async function GET(request: Request, { params }: { params: { hotelId: string } }) {
   const hotelId = params.hotelId;

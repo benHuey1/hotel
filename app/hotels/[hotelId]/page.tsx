@@ -1,13 +1,15 @@
 import { ArrowBackIcon, PersonIcon } from '@/components/icons';
-import { Option, Room } from '@/types';
+import { Hotel, Option, Room } from '@/types';
 import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
-import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
 import { notFound } from 'next/navigation';
-import prisma from '@/lib/prisma';
+// import prisma from '@/lib/prisma';
 // import Caroussel from '@/components/caroussel';
 import dynamic from 'next/dynamic';
 import { differenceInDays, parse, parseISO } from 'date-fns';
+import SearchBooking from '@/components/search-booking';
+import { prisma } from '@/lib/prisma';
 
 const Caroussel = dynamic(() => import('@/components/caroussel'), { ssr: false });
 
@@ -63,10 +65,24 @@ async function getHotel(hotelId: string, searchParams: { [key: string]: string |
 //     console.error('Error fetching hotel:', error);
 //     return null;
 //   }
-// }
+// }const prisma = new PrismaClient();
+
+async function getHotels(): Promise<Hotel[]> {
+  const hotels = await prisma.hotels.findMany({
+    include: {
+      Rooms: {
+        include: {
+          options: true,
+        },
+      },
+    },
+  });
+  return hotels;
+}
 
 export default async function HotelPage({ params, searchParams }: { params: { hotelId: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
   const hotel = await getHotel(params.hotelId, searchParams);
+  const countries: Hotel[] = await getHotels();
 
   if (!hotel) {
     console.log(hotel);
@@ -85,16 +101,28 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
 
   // Calculate the number of booking days
   let bookingNights = 0;
+  let startDate: Date | undefined;
+  let endDate: Date | undefined;
   if (start && end && typeof start === 'string' && typeof end === 'string') {
     const startDate = parse(start, 'dd/MM/yyyy', new Date());
     const endDate = parse(end, 'dd/MM/yyyy', new Date());
     bookingNights = differenceInDays(endDate, startDate);
   }
+  const initialValues = {
+    rooms: rooms ? Number(rooms) : undefined,
+    adults: adults ? Number(adults) : undefined,
+    children: children ? Number(children) : undefined,
+    startDate,
+    endDate,
+    selectedCountryId: params.hotelId
+  };
 
   return (
     <div className='w-full h-full flex flex-col md:flex-row'>
       <div className='w-full md:w-1/6 h-20 md:h-screen bg-secondary'>
-        Filtres
+        <p className='text-slate-100 text-center py-4'>Modifier la recherche ?</p>
+        <div className='w-full h-full'>
+        <SearchBooking countries={countries} layout='vertical' roomWidth='90%' familyWidth='90%' countryWidth='90%' dateWidth='90%' initialValues={initialValues}/></div>
       </div>
       <div className='w-full h-full md:w-5/6  p-5'>
         <h1 className='underline underline-offset-4 decoration- decoration-2 decoration-primary pb-4'><span className='text-secondary font-bold'>L'Hôtel Karibu</span> - {hotel.capital || 'Not Available'} ({hotel.country || 'Not Available'})</h1>

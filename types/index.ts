@@ -28,6 +28,23 @@ export interface PopoverCountriesProps {
   // Other props...
 }
 
+export interface SearchBookingProps {
+  countries: Hotel[];
+  roomWidth: string;
+  familyWidth: string;
+  countryWidth: string;
+  dateWidth: string;
+  layout?: 'horizontal' | 'vertical';
+  initialValues?: {
+    rooms?: number;
+    adults?: number;
+    children?: number;
+    startDate?: Date;
+    endDate?: Date;
+    selectedCountryId?: string;
+  };
+}
+
 // export type SelectKeys = Set<string>
 
 // Types Hotel
