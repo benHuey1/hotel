@@ -1,10 +1,18 @@
-import { ArrowBackIcon } from '@/components/icons';
-import { Option, Room } from '@/types';
+import { ArrowBackIcon, PersonIcon } from '@/components/icons';
+import { Hotel, Option, Room } from '@/types';
 import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
-import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
 import { notFound } from 'next/navigation';
-import prisma from '@/lib/prisma';
+// import prisma from '@/lib/prisma';
+// import Caroussel from '@/components/caroussel';
+import dynamic from 'next/dynamic';
+import { differenceInDays, parse, parseISO } from 'date-fns';
+import SearchBooking from '@/components/search-booking';
+import { prisma } from '@/lib/prisma';
+
+const Caroussel = dynamic(() => import('@/components/caroussel'), { ssr: false });
+
 
 //  -----------------------------------------------------
 // const prisma = new PrismaClient();
@@ -25,9 +33,10 @@ import prisma from '@/lib/prisma';
 //   }));
 // }
 //  -----------------------------------------------------
-async function getHotel(hotelId: string) {
+async function getHotel(hotelId: string, searchParams: { [key: string]: string | string[] | undefined }) {
   try {
-    const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}`, { cache: 'no-store' });
+    const queryString = new URLSearchParams(searchParams as Record<string, string>).toString();
+    const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
     if (!res.ok) {
       throw new Error(`Failed to fetch hotel: ${res.status}`);
     }
@@ -56,10 +65,24 @@ async function getHotel(hotelId: string) {
 //     console.error('Error fetching hotel:', error);
 //     return null;
 //   }
-// }
+// }const prisma = new PrismaClient();
 
-export default async function HotelPage({ params }: { params: { hotelId: string } }) {
-  const hotel = await getHotel(params.hotelId);
+async function getHotels(): Promise<Hotel[]> {
+  const hotels = await prisma.hotels.findMany({
+    include: {
+      Rooms: {
+        include: {
+          options: true,
+        },
+      },
+    },
+  });
+  return hotels;
+}
+
+export default async function HotelPage({ params, searchParams }: { params: { hotelId: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
+  const hotel = await getHotel(params.hotelId, searchParams);
+  const countries: Hotel[] = await getHotels();
 
   if (!hotel) {
     console.log(hotel);
@@ -69,44 +92,97 @@ export default async function HotelPage({ params }: { params: { hotelId: string 
     console.log(hotel);
   }
 
+  const { rooms, adults, children, start, end } = searchParams;
+
+  // Convert string parameters to numbers
+  const roomsNum = Number(rooms);
+  const adultsNum = Number(adults);
+  const childrenNum = Number(children);
+
+  // Calculate the number of booking days
+  let bookingNights = 0;
+  let startDate: Date | undefined;
+  let endDate: Date | undefined;
+  if (start && end && typeof start === 'string' && typeof end === 'string') {
+    const startDate = parse(start, 'dd/MM/yyyy', new Date());
+    const endDate = parse(end, 'dd/MM/yyyy', new Date());
+    bookingNights = differenceInDays(endDate, startDate);
+  }
+  const initialValues = {
+    rooms: rooms ? Number(rooms) : undefined,
+    adults: adults ? Number(adults) : undefined,
+    children: children ? Number(children) : undefined,
+    startDate,
+    endDate,
+    selectedCountryId: params.hotelId
+  };
+
   return (
-    <div>
-      {/* HEYY */}
-      <p>Pays: {hotel.country || 'Not Available'}</p>
-      <p>Capitale: {hotel.capital || 'Not Available'}</p>
-      <h2>Chambres:</h2>
-      {hotel.Rooms && hotel.Rooms.length > 0 ? (
-        hotel.Rooms.map((room: Room, index: number) => (
+    <div className='w-full h-full flex flex-col md:flex-row'>
+      <div className='w-full md:w-1/6 h-20 md:h-screen bg-secondary'>
+        <p className='text-slate-100 text-center py-4'>Modifier la recherche ?</p>
+        <div className='w-full h-full'>
+        <SearchBooking countries={countries} layout='vertical' roomWidth='90%' familyWidth='90%' countryWidth='90%' dateWidth='90%' initialValues={initialValues}/></div>
+      </div>
+      <div className='w-full h-full md:w-5/6  p-5'>
+        <h1 className='underline underline-offset-4 decoration- decoration-2 decoration-primary pb-4'><span className='text-secondary font-bold'>L'Hôtel Karibu</span> - {hotel.capital || 'Not Available'} ({hotel.country || 'Not Available'})</h1>
+        {/* <p className='text-red-500 py-4'>Recherche : {rooms} {Number(rooms)>1 ? 'chambres' :'chambre'}, {adults} {Number(adults)>1 ? 'adultes' :'adulte'}, {children} {Number(children)>1 ? 'enfants' :'enfant'}, du {start} au {end} = {(Number(end)-Number(start)/3600)}h</p> */}
+        <p className='text-red-500 py-4'>Recherche : {roomsNum} chambre{roomsNum>1 ? 's' :''}, {adultsNum} adulte{adultsNum>1 ? 's' :''}, {childrenNum} enfant{childrenNum>1 ? 's' :''}, du {start} au {end} = {bookingNights} nuit{bookingNights>1 ? 's' : ''}</p>
+        {hotel.Rooms && hotel.Rooms.length > 0 ? (
           <>
-            <div key={room.id}>
-              <h3>
-                <span className="text-primary">Chambre n°{index + 1}</span> - {room.type}
-              </h3>
-              <p>Capacité: {room.capacity}</p>
-              <p>Prix: {room.cost}</p>
-              <p>
-                Options:{' '}
-                {room.options && room.options.length > 0
-                  ? room.options.map((option: Option) => option.name).join(', ')
-                  : 'Aucune'}
-              </p>
-              <Link href={`/hotels/${hotel.id}/rooms/${room.id}`}>
-                <Button color="secondary">Détails</Button>
-              </Link>
+            <div className='flex flex-col gap-8'>
+              {hotel.Rooms.map((room: Room, index: number) => (
+                  // <div className='w-full flex flex-col md:flex-row hover:outline outline-secondary outline-offset-4 rounded-lg'>
+                  <div className='w-full flex flex-col md:flex-row hover:outline outline-transparent hover:outline-secondary outline-offset-4 transition-all duration-300 ease-in-out'>
+                    {room.pictures && room.pictures.length > 0 && <div className="w-full md:w-1/2 rounded-lg"><Caroussel pictures={room.pictures} /></div>}
+                    <div key={room.id} className='w-full md:w-1/2 flex flex-col md:justify-between p-2 gap-4'>
+                      <div>
+                        <h3 className="text-secondary flex gap-2">
+                          {room.type} - {room.capacity} <PersonIcon />
+                        </h3>
+                        <h4 className='text-secondary'>{hotel.country}</h4>
+                      </div>
+                      <p>
+                        Options:{' '}
+                        {room.options && room.options.length > 0
+                          ? room.options.map((option: Option) => option.name).join(', ')
+                          : 'Aucune'}
+                      </p>
+                      <div className='flex flex-col-reverse md:flex-row md:justify-start gap-4'>
+                        <div className='w-full md:w-1/5 text-center'>
+                          <Link href={`/hotels/${hotel.id}/rooms/${room.id}`}>
+                            <Button color="secondary">Détails</Button>
+                          </Link>
+                        </div>
+                        <div className='w-full flex justify-between'>
+                          <p className='underline underline-offset-4 content-center'>{room.cost} €/nuit</p>
+                          {bookingNights && bookingNights ? (
+                            <>
+                              <p className='content-center'> {bookingNights} nuits</p>
+                              <p className='content-center'>Total: {bookingNights*room.cost} €</p>
+                            </>
+                          ) : (
+                            <p className='text-red-500 content-center'>Choisissez une période</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              ))}
             </div>
           </>
-        ))
-      ) : (
-        <p>Pas de chambres disponibles</p>
-      )}
-      <Link href="/">
-        <Button
-          className="bg-tertiary text-white hover:bg-gray-500"
-          startContent={<ArrowBackIcon fillColor="white" />}
-        >
-          Accueil
-        </Button>
-      </Link>
+        ) : (
+          <p>Pas de chambres disponibles</p>
+        )}
+        <Link href="/">
+          <Button
+            className="bg-tertiary text-white hover:bg-gray-500"
+            startContent={<ArrowBackIcon fillColor="white" />}
+          >
+            Accueil
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }

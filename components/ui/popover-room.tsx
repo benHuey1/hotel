@@ -16,7 +16,7 @@ const PopoverRoom: React.FC<PopoverRoomProps> = ({ classNameTrigger, room, setRo
         <Button
           color="default"
           className="text-default-foregrounddata tap-highlight-revert dark:text-black"
-          startContent={<Image src="icon/sleeping-red.png" width={50} height={60} />}
+          startContent={<Image src="/icon/sleeping-red.png" width={30} height={30} />}
         >
           {room} chambres
         </Button>

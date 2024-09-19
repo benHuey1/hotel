@@ -32,7 +32,7 @@ const PopoverFamily: React.FC<PopoverFamilyProps> = ({
         <Button
           color="default"
           className="tap-highlight-revert dark:text-black"
-          startContent={<Image src="icon/family-red.png" width={50} height={50} />}
+          startContent={<Image src="/icon/family-red.png" width={30} height={30} />}
         >
           {family.adults} Adultes - {family.children} enfants
         </Button>
@@ -43,7 +43,7 @@ const PopoverFamily: React.FC<PopoverFamilyProps> = ({
             <p className="text-small font-bold text-foreground" {...titleProps}>
               Nombre de personnes
             </p>
-            <div className="mt-2 flex w-full flex-col gap-2">
+            <div className="mt-2 flex w-full flex-col gap-2"> 
               <form action="" className=" space-y-2">
                 <Input
                   isRequired

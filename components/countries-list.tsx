@@ -21,8 +21,8 @@ const CountriesList: React.FC<PopoverCountriesProps> = ({
         }}
         //   className={classNameTrigger}
         disableSelectorIconRotation
-        selectorIcon={<Image src="icon/home-red.png" width={30} height={30} />}
-        startContent={<Image src="icon/home-red.png" width={30} height={30} />}
+        selectorIcon={<Image src="/icon/home-red.png" width={30} height={30} />}
+        startContent={<Image src="/icon/home-red.png" width={30} height={30} />}
         classNames={{
           label: 'group-data-[filled=true]:-translate-y-5',
           trigger: classNameTrigger,
