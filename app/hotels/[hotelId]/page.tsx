@@ -36,8 +36,8 @@ const Caroussel = dynamic(() => import('@/components/caroussel'), { ssr: false }
 async function getHotel(hotelId: string, searchParams: { [key: string]: string | string[] | undefined }) {
   try {
     const queryString = new URLSearchParams(searchParams as Record<string, string>).toString();
-    // const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
-    const res = await fetch(`https://hotel-karibu.vercel.app/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
+    const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
+    // const res = await fetch(`https://hotel-karibu.vercel.app/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
     if (!res.ok) {
       throw new Error(`Failed to fetch hotel: ${res.status}`);
     }
