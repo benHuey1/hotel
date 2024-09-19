@@ -10,7 +10,8 @@
     "db:pull": "prisma db pull",
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@nextui-org/button": "^2.0.32",
