@@ -36,8 +36,8 @@ const Caroussel = dynamic(() => import('@/components/caroussel'), { ssr: false }
 async function getHotel(hotelId: string, searchParams: { [key: string]: string | string[] | undefined }) {
   try {
     const queryString = new URLSearchParams(searchParams as Record<string, string>).toString();
-    const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
-    // const res = await fetch(`https://hotel-karibu.vercel.app/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
+    // const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
+    const res = await fetch(`https://hotel-karibu.vercel.app/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
     if (!res.ok) {
       throw new Error(`Failed to fetch hotel: ${res.status}`);
     }
@@ -139,6 +139,7 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
                     <div key={room.id} className='w-full md:w-1/2 flex flex-col md:justify-between p-2 gap-4'>
                       <div>
                         <h3 className="text-secondary flex gap-2">
+                          {/* {room.type.name} - {room.capacity} <PersonIcon /> */}
                           {room.type} - {room.capacity} <PersonIcon />
                         </h3>
                         <h4 className='text-secondary'>{hotel.country}</h4>

@@ -66,6 +66,14 @@ export interface Room {
   type: string;
   options: Option[];
 }
+export interface RoomTypes {
+  id:          string;
+  name:       string;
+  description: string;
+  capacity:    number;
+  basePrice:   number;
+  Rooms:       Room[];
+}
 
 export interface Option {
   id: string;

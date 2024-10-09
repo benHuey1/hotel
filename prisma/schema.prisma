@@ -33,7 +33,7 @@ model Currency {
 }
 
 model Hotels {
-  id           String  @id
+  id           String  @id @default(uuid())
   country      String
   capital      String
   picture      String
@@ -54,14 +54,24 @@ model Options {
 }
 
 model Rooms {
-  id       String    @id @default(uuid())
-  hotelId  String
-  capacity Int
-  cost     Int
-  pictures String[]
-  type     String
-  Hotels   Hotels    @relation(fields: [hotelId], references: [id])
-  options  Options[] @relation("OptionsToRooms")
+  id         String     @id @default(uuid())
+  hotelId    String
+  capacity   Int
+  cost       Int
+  pictures   String[]
+  roomTypeId String?
+  Hotels     Hotels     @relation(fields: [hotelId], references: [id])
+  options    Options[]  @relation("OptionsToRooms")
+  roomType   RoomTypes? @relation(fields: [roomTypeId], references: [id])
+}
+
+model RoomTypes {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  capacity    Int
+  basePrice   Float
+  Rooms       Rooms[]
 }
 
 model Session {

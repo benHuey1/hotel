@@ -49,7 +49,7 @@ export default async function Home() {
       >
         {/* <div className="flex items-center h-[80%] px-10 py-5"> */}
         <div className="flex w-full items-center justify-center px-4 sm:px-10">
-          <SearchBooking countries={countries} layout='horizontal' roomWidth='40%' familyWidth='60%' countryWidth='80%' dateWidth='100%'/>
+          <SearchBooking countries={countries} layout='horizontal' roomWidth='40%'  familyWidth='60%' countryWidth='80%' dateWidth='100%'/>
         </div>
       </div>
       <div className="flex w-full flex-col items-start gap-16 py-10 md:gap-0">
