@@ -13,6 +13,8 @@ import SearchBooking from '@/components/search-booking';
 import HotelsList from '@/components/hotels-list';
 import { Hotel } from '@/types';
 import { prisma } from '@/lib/prisma';
+import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 // const prisma = new PrismaClient();
 
@@ -30,6 +32,7 @@ async function getHotels(): Promise<Hotel[]> {
 }
 
 export default async function Home() {
+  const t = await getTranslations('HomePage');
   // const hotels: Hotel[] = await prisma.hotels.findMany({
   //   include: {
   //     Rooms: true,
@@ -56,8 +59,10 @@ export default async function Home() {
         <div className="flex h-full w-full flex-col items-center gap-16 md:h-[40vh] md:flex-row md:items-start md:gap-0">
           <div className="flex h-full w-[50%] flex-col items-center justify-center gap-2">
             <h3 className="text-center text-lg font-bold">
-              Présent dans plus de 10 capitales dans le monde
+              {t('intro_0_title')}
+              {/* Présent dans plus de 10 capitales dans le monde */}
             </h3>
+            {/* <p>{t('title')}</p> */}
             <div className="flex gap-4">
               {Array.from({ length: 4 }, (_, i) => (
                 <Image key={i} priority src="/icon/star.png" height={40} width={40} alt="a star" />
@@ -65,10 +70,10 @@ export default async function Home() {
             </div>
           </div>
           <div className="flex h-full w-[50%] flex-col items-center justify-center gap-8">
-            <h3 className="text-lg font-bold">Nos services</h3>
+            <h3 className="text-lg font-bold">{t('intro_1_title')}</h3>
             <div className="flex items-center justify-center gap-10 text-center">
               <div className="flex flex-col items-center gap-5">
-                <p>Notre vision</p>
+                <p>{t('intro_1_text_text1')}</p>
                 <Image
                   priority
                   src="/icon/vision.png"
@@ -78,11 +83,11 @@ export default async function Home() {
                 />
               </div>
               <div className="flex flex-col items-center gap-5">
-                <p>Nos promotions</p>
+                <p>{t('intro_1_text_text2')}</p>
                 <Image priority src="/icon/dollar.png" height={50} width={50} alt="a dollar icon" />
               </div>
               <div className="flex flex-col items-center gap-5">
-                <p>Nos hôtels</p>
+                <p>{t('intro_1_text_text3')}</p>
                 <Image
                   priority
                   src="/icon/sleeping-yellow.png"
@@ -95,12 +100,12 @@ export default async function Home() {
           </div>
         </div>
         <div className="flex h-[10vh] w-full flex-col items-center justify-center gap-4 md:flex-row">
-          <h3 className="text-center text-lg font-bold">Découvrez nos hôtels à travers le monde</h3>
+          <h3 className="text-center text-lg font-bold">{t('intro_2_title')}</h3>
           <Image priority src="/icon/luggage-yellow.png" height={40} width={50} alt="a suitcase" />
         </div>
       </div>
       <div className="flex w-full flex-col items-start p-8">
-        <p className="text-lg">Notre vision</p>
+        <p className="text-lg">{t('intro_1_text_text1')}</p>
         <p>
           Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
           Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
@@ -122,13 +127,13 @@ export default async function Home() {
         </p>
       </div>
       <div className="flex w-full flex-col items-start p-8">
-        <p className="text-lg">Nos hôtels</p>
+        <p className="text-lg">{t('intro_1_text_text2')}</p>
         <div className="flex w-full justify-center">
           <HotelsList hotels={hotels} />
         </div>
       </div>
       <div className="flex w-full flex-col items-start p-8">
-        <p className="text-lg">Nos promotions</p>
+        <p className="text-lg">{t('intro_1_text_text3')}</p>
       </div>
     </main>
   );

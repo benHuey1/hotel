@@ -1,0 +1,17 @@
+{
+    "Nav": {
+        "customerService": "servicio al cliente",
+        "connexion": "acceso"
+    },
+    "HomePage": {
+        "title": "¡Hola, mundo!",
+        "intro_0_title": "Presente en más de 10 capitales del mundo",
+        "intro_1_title": "Nuestros servicios",
+        "intro_1_text_text1": "Nuestra visión",
+        "intro_1_text_text2": "Nuestros hoteles",
+        "intro_1_text_text3": "Nuestras promociones",
+        "intro_2_title": "Descubra nuestros hoteles en todo el mundo",
+        "about": "Ir a la página Acerca de",
+        "hotel_ours": "Nuestros hoteles"
+    }
+}

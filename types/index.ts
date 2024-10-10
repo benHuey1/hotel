@@ -14,8 +14,19 @@ export interface DropdownItem {
   icon?: React.ReactNode;
 }
 
+// export interface DropdownChoiceProps {
+//   items: DropdownItem[];
+// }
+
 export interface DropdownChoiceProps {
-  items: DropdownItem[];
+  items: Array<{
+    key: string;
+    label: string;
+    icon: React.ReactNode;
+  }>;
+  selectedKey: string;
+  onSelectionChange: (key: string) => void;
+  ariaLabel: string;
 }
 
 export interface PopoverCountriesProps {

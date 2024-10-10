@@ -34,6 +34,8 @@ import {
 } from '@/components/icons';
 import DropdownChoice from '@/components/ui/dropdown-menu';
 import React, { useEffect, useState } from 'react';
+import LanguageDropdown from './language-dropdown';
+import CurrencyDropdown from './currency-dropdown';
 
 export const Navbar = () => {
   // const searchInput = (
@@ -114,20 +116,8 @@ export const Navbar = () => {
           <Link aria-label="Service-Client" href="/service-client" className="text-inherit">
             Service client
           </Link>
-          <DropdownChoice
-            items={[
-              { key: 'EUR', label: 'EUR', icon: <EurIcon /> },
-              { key: 'GBP', label: 'GBP', icon: <GbpIcon /> },
-              { key: 'USD', label: 'USD', icon: <UsdIcon /> },
-            ]}
-          />
-          <DropdownChoice
-            items={[
-              { key: 'fr', label: 'French', icon: <FrIcon /> },
-              { key: 'en', label: 'English', icon: <EnIcon /> },
-              { key: 'es', label: 'Spanish', icon: <EsIcon /> },
-            ]}
-          />
+          <CurrencyDropdown/>
+          <LanguageDropdown/>
           <Link aria-label="Connexion" href="/connexion" className="text-inherit">
             Connexion
           </Link>
