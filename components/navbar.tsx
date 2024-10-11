@@ -36,6 +36,7 @@ import DropdownChoice from '@/components/ui/dropdown-menu';
 import React, { useEffect, useState } from 'react';
 import LanguageDropdown from './language-dropdown';
 import CurrencyDropdown from './currency-dropdown';
+import { useClientTranslations } from '@/lib/useClientTranslations';
 
 export const Navbar = () => {
   // const searchInput = (
@@ -58,6 +59,7 @@ export const Navbar = () => {
   //     type="search"
   //   />
   // );
+  // const t = useClientTranslations('Navbar');
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isOpen, setIsOpen] = useState(false);
   // const icons = {
@@ -114,6 +116,7 @@ export const Navbar = () => {
       <NavbarContent className="hidden basis-1/5 sm:flex sm:basis-full" justify="end">
         <NavbarItem className="hidden gap-2 sm:flex">
           <Link aria-label="Service-Client" href="/service-client" className="text-inherit">
+            {/* {t('customerService')} */}
             Service client
           </Link>
           <CurrencyDropdown/>

@@ -1,5 +1,5 @@
 {
-  "Nav": {
+  "Navbar": {
     "customerService": "service client",
     "connexion": "connexion"
   },
@@ -13,5 +13,8 @@
     "intro_2_title": "Découvrez nos hôtels à travers le monde",
     "about": "Aller à la page à propos",
     "hotel_ours": "Nos hôtels"
+  },
+  "HotelPage": {
+    "title": "L'Hôtel Karibu"
   }
 }

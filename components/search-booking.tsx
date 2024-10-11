@@ -13,6 +13,7 @@ import { DateRange } from 'react-day-picker';
 import { useRouter } from 'next/navigation';
 import CountriesList from './countries-list';
 import { Hotel, SearchBookingProps } from '@/types';
+import { useLocale } from 'next-intl';
 
 const SearchBooking: React.FC<SearchBookingProps> = ({
   countries, 
@@ -35,6 +36,7 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
     endDate: initialValues?.endDate || null,
   });
   const router = useRouter();
+    const locale = useLocale();
   const submitDatas = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // if (selectedCountry) {
@@ -47,7 +49,7 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
     // }
     if (selectedCountry) {
       console.log('Selected hotel ID:', selectedCountry.id);
-      router.push(`/hotels/${selectedCountry.id}?rooms=${room}&adults=${family.adults}&children=${family.children}&start=${dateRange.startDate?.toLocaleDateString().split('T')[0]}&end=${dateRange.endDate?.toLocaleDateString().split('T')[0]}`);
+      router.push(`/${locale}/hotels/${selectedCountry.id}?rooms=${room}&adults=${family.adults}&children=${family.children}&start=${dateRange.startDate?.toLocaleDateString().split('T')[0]}&end=${dateRange.endDate?.toLocaleDateString().split('T')[0]}`);
     } else {
       alert('Please select a country/hotel first.');
     }

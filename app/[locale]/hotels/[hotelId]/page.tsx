@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 import { differenceInDays, parse, parseISO } from 'date-fns';
 import SearchBooking from '@/components/search-booking';
 import { prisma } from '@/lib/prisma';
+import { getTranslations } from 'next-intl/server';
 
 const Caroussel = dynamic(() => import('@/components/caroussel'), { ssr: false });
 
@@ -36,8 +37,8 @@ const Caroussel = dynamic(() => import('@/components/caroussel'), { ssr: false }
 async function getHotel(hotelId: string, searchParams: { [key: string]: string | string[] | undefined }) {
   try {
     const queryString = new URLSearchParams(searchParams as Record<string, string>).toString();
-    // const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
-    const res = await fetch(`https://hotel-karibu.vercel.app/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
+    const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
+    // const res = await fetch(`https://hotel-karibu.vercel.app/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
     if (!res.ok) {
       throw new Error(`Failed to fetch hotel: ${res.status}`);
     }
@@ -69,29 +70,36 @@ async function getHotel(hotelId: string, searchParams: { [key: string]: string |
 // }const prisma = new PrismaClient();
 
 async function getHotels(): Promise<Hotel[]> {
-  const hotels = await prisma.hotels.findMany({
-    include: {
-      Rooms: {
-        include: {
-          options: true,
+  try {
+    const hotels = await prisma.hotels.findMany({
+      include: {
+        Rooms: {
+          include: {
+            options: true,
+          },
         },
       },
-    },
-  });
-  return hotels;
+    });
+    return hotels;
+  } catch (error) {
+    console.error('Error fetching hotels:', error);
+    return [];
+  }
 }
 
 export default async function HotelPage({ params, searchParams }: { params: { hotelId: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
   const hotel = await getHotel(params.hotelId, searchParams);
   const countries: Hotel[] = await getHotels();
+  const t = await getTranslations('HotelPage');
 
   if (!hotel) {
-    console.log(hotel);
-    notFound();
+    // console.log(hotel);
+    // notFound();
+    return <div>Hotel not found or error loading hotel data.</div>;
   }
-  if (hotel) {
-    console.log(hotel);
-  }
+  // if (hotel) {
+  //   console.log(hotel);
+  // }
 
   const { rooms, adults, children, start, end } = searchParams;
 
@@ -126,7 +134,7 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
         <SearchBooking countries={countries} layout='vertical' roomWidth='90%' familyWidth='90%' countryWidth='90%' dateWidth='90%' initialValues={initialValues}/></div>
       </div>
       <div className='w-full h-full md:w-5/6  p-5'>
-        <h1 className='underline underline-offset-4 decoration- decoration-2 decoration-primary pb-4'><span className='text-secondary font-bold'>L'Hôtel Karibu</span> - {hotel.capital || 'Not Available'} ({hotel.country || 'Not Available'})</h1>
+        <h1 className='underline underline-offset-4 decoration- decoration-2 decoration-primary pb-4'><span className='text-secondary font-bold'>{t('title')}</span> - {hotel.capital || 'Not Available'} ({hotel.country || 'Not Available'})</h1>
         {/* <p className='text-red-500 py-4'>Recherche : {rooms} {Number(rooms)>1 ? 'chambres' :'chambre'}, {adults} {Number(adults)>1 ? 'adultes' :'adulte'}, {children} {Number(children)>1 ? 'enfants' :'enfant'}, du {start} au {end} = {(Number(end)-Number(start)/3600)}h</p> */}
         <p className='text-red-500 py-4'>Recherche : {roomsNum} chambre{roomsNum>1 ? 's' :''}, {adultsNum} adulte{adultsNum>1 ? 's' :''}, {childrenNum} enfant{childrenNum>1 ? 's' :''}, du {start} au {end} = {bookingNights} nuit{bookingNights>1 ? 's' : ''}</p>
         {hotel.Rooms && hotel.Rooms.length > 0 ? (
