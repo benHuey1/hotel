@@ -85,7 +85,7 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
         }`}
         onSubmit={submitDatas}
       >
-        <div className={`flex ${
+        <div className={`flex w-3/4 ${
           layout === 'horizontal' 
             ? 'sm:h-4/6 sm:w-1/4 sm:justify-end'
             :  'h-16 w-full justify-center'

@@ -56,8 +56,8 @@ export default async function Home() {
         </div>
       </div>
       <div className="flex w-full flex-col items-start gap-16 py-10 md:gap-0">
-        <div className="flex h-full w-full flex-col items-center gap-16 md:h-[40vh] md:flex-row md:items-start md:gap-0">
-          <div className="flex h-full w-[50%] flex-col items-center justify-center gap-2">
+        <div className="flex h-full w-full flex-col items-center gap-16 md:h-[20vh] lg:h-[40vh] md:flex-row md:items-start md:gap-0">
+          <div className="flex h-full w-full md:w-[50%] flex-col items-center justify-center gap-2 md:px-5 lg:px-0">
             <h3 className="text-center text-lg font-bold">
               {t('intro_0_title')}
               {/* Présent dans plus de 10 capitales dans le monde */}
@@ -69,30 +69,30 @@ export default async function Home() {
               ))}
             </div>
           </div>
-          <div className="flex h-full w-[50%] flex-col items-center justify-center gap-8">
+          <div className="flex h-full w-full md:w-[50%] flex-col items-center justify-center gap-8">
             <h3 className="text-lg font-bold">{t('intro_1_title')}</h3>
-            <div className="flex items-center justify-center gap-10 text-center">
+            <div className="flex justify-center gap-10 text-center">
               <div className="flex flex-col items-center gap-5">
                 <p>{t('intro_1_text_text1')}</p>
                 <Image
                   priority
                   src="/icon/vision.png"
-                  height={50}
-                  width={50}
+                  height={40}
+                  width={40}
                   alt="a pair of binocluars"
                 />
               </div>
               <div className="flex flex-col items-center gap-5">
                 <p>{t('intro_1_text_text2')}</p>
-                <Image priority src="/icon/dollar.png" height={50} width={50} alt="a dollar icon" />
+                <Image priority src="/icon/dollar.png" height={40} width={40} alt="a dollar icon" />
               </div>
               <div className="flex flex-col items-center gap-5">
                 <p>{t('intro_1_text_text3')}</p>
                 <Image
                   priority
                   src="/icon/sleeping-yellow.png"
-                  height={50}
-                  width={50}
+                  height={55}
+                  width={55}
                   alt="a bed"
                 />
               </div>

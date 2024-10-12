@@ -117,7 +117,7 @@ const DateRangePickerBooking: React.FC<DateRangePickerBookingProps> = ({
       value={value}
       onChange={handleChange}
       selectorIcon={<Image src="/icon/calendar.png" width={30} height={30} />}
-      startContent={<Image src="/icon/calendar.png" width={30} height={30} />}
+      // startContent={<Image src="/icon/calendar.png" width={30} height={30} />}
       // errorMessage=""
       minValue={today(getLocalTimeZone())}
       defaultValue={{
