@@ -14,7 +14,7 @@ import HotelsList from '@/components/hotels-list';
 import { Hotel } from '@/types';
 import { prisma } from '@/lib/prisma';
 import { useTranslations } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 
 // const prisma = new PrismaClient();
 
@@ -31,7 +31,9 @@ async function getHotels(): Promise<Hotel[]> {
   return hotels;
 }
 
-export default async function Home() {
+// export default async function Home() {
+  export default async function Home({ params: { locale } }: { params: { locale: string } }) {
+    unstable_setRequestLocale(locale);
   const t = await getTranslations('HomePage');
   // const hotels: Hotel[] = await prisma.hotels.findMany({
   //   include: {

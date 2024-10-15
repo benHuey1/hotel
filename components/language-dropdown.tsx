@@ -45,6 +45,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import DropdownChoice from './ui/dropdown-menu';
 import { FrIcon, EnIcon, EsIcon } from '@/components/icons';
+import { locales } from '../config/config';
 
 const languages = [
   { key: 'fr', label: 'Français', icon: <FrIcon /> },
@@ -79,7 +80,8 @@ export default function LanguageDropdown() {
 
   return (
     <DropdownChoice
-      items={languages}
+      // items={languages}
+      items={languages.filter(lang => locales.includes(lang.key as any))}
       selectedKey={currentLocale}
       onSelectionChange={handleLanguageChange}
       ariaLabel="Language selection"

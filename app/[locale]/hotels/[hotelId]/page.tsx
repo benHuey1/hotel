@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic';
 import { differenceInDays, parse, parseISO } from 'date-fns';
 import SearchBooking from '@/components/search-booking';
 import { prisma } from '@/lib/prisma';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 
 const Caroussel = dynamic(() => import('@/components/caroussel'), { ssr: false });
 
@@ -87,9 +87,10 @@ async function getHotels(): Promise<Hotel[]> {
   }
 }
 
-export default async function HotelPage({ params, searchParams }: { params: { hotelId: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
+export default async function HotelPage({ params, searchParams }: { params: { hotelId: string, locale: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
   const hotel = await getHotel(params.hotelId, searchParams);
   const countries: Hotel[] = await getHotels();
+  unstable_setRequestLocale(params.locale);
   const t = await getTranslations('HotelPage');
 
   if (!hotel) {

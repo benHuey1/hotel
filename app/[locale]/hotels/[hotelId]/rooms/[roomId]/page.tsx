@@ -53,7 +53,8 @@ export default async function RoomPage({
     const room = await getRoom(params.hotelId, params.roomId);
 
     if (!room) {
-      notFound();
+      // notFound();
+      return <div>Room not found or error loading room data.</div>;
     }
 
     return (
