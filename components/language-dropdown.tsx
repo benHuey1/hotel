@@ -41,7 +41,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import DropdownChoice from './ui/dropdown-menu';
 import { FrIcon, EnIcon, EsIcon } from '@/components/icons';
@@ -53,9 +53,50 @@ const languages = [
   { key: 'es', label: 'Español', icon: <EsIcon /> },
 ];
 
+// export default function LanguageDropdown() {
+//   const router = useRouter();
+//   const pathname = usePathname();
+//   const initialLocale = useLocale();
+//   const [currentLocale, setCurrentLocale] = useState(initialLocale);
+//   const searchParams = useSearchParams();
+
+//   useEffect(() => {
+//     // Mettre à jour currentLocale lorsque le pathname change
+//     const localeFromPath = pathname.split('/')[1];
+//     if (languages.some(lang => lang.key === localeFromPath)) {
+//       setCurrentLocale(localeFromPath);
+//     }
+//   }, [pathname]);
+
+//   const handleLanguageChange = (newLocale: string) => {
+//     if (newLocale === currentLocale) return;
+
+//     const segments = pathname.split('/');
+//     segments[1] = newLocale;
+//     const newPath = segments.join('/');
+    
+//     // router.push(newPath + '?lang_changed=1');
+//     // setCurrentLocale(newLocale);    
+//     const currentParams = new URLSearchParams(searchParams.toString());
+//     currentParams.set('lang_changed', '1');
+    
+//     router.push(`${newPath}?${currentParams.toString()}`);
+//   };
+
+//   return (
+//     <DropdownChoice
+//       // items={languages}
+//       items={languages.filter(lang => locales.includes(lang.key as any))}
+//       selectedKey={currentLocale}
+//       onSelectionChange={handleLanguageChange}
+//       ariaLabel="Language selection"
+//     />
+//   );
+// }
 export default function LanguageDropdown() {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const initialLocale = useLocale();
   const [currentLocale, setCurrentLocale] = useState(initialLocale);
 
@@ -70,17 +111,25 @@ export default function LanguageDropdown() {
   const handleLanguageChange = (newLocale: string) => {
     if (newLocale === currentLocale) return;
 
-    const segments = pathname.split('/');
-    segments[1] = newLocale;
+    let segments = pathname.split('/');
+    
+    if (!locales.includes(segments[1] as any)) {
+      segments = ['', newLocale, ...segments.slice(1)];
+    } else {
+      segments[1] = newLocale;
+    }
     const newPath = segments.join('/');
     
-    router.push(newPath + '?lang_changed=1');
+    // Préserver tous les paramètres de recherche existants
+    const currentParams = new URLSearchParams(searchParams.toString());
+    currentParams.set('lang_changed', '1');
+
+    router.push(`${newPath}?${currentParams.toString()}`);
     setCurrentLocale(newLocale);
   };
 
   return (
     <DropdownChoice
-      // items={languages}
       items={languages.filter(lang => locales.includes(lang.key as any))}
       selectedKey={currentLocale}
       onSelectionChange={handleLanguageChange}

@@ -90,6 +90,7 @@ async function getHotels(): Promise<Hotel[]> {
 export default async function HotelPage({ params, searchParams }: { params: { hotelId: string, locale: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
   const hotel = await getHotel(params.hotelId, searchParams);
   const countries: Hotel[] = await getHotels();
+  
   unstable_setRequestLocale(params.locale);
   const t = await getTranslations('HotelPage');
 
@@ -162,6 +163,7 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
                       <div className='flex flex-col-reverse md:flex-row md:justify-start gap-4'>
                         <div className='w-full md:w-1/5 text-center'>
                           <Link href={`/hotels/${hotel.id}/rooms/${room.id}`}>
+                          {/* <Link href={`/${locale}/hotels/${selectedCountry.id}?rooms=${room}&adults=${family.adults}&children=${family.children}&start=${dateRange.startDate?.toLocaleDateString().split('T')[0]}&end=${dateRange.endDate?.toLocaleDateString().split('T')[0]}`}> */}
                             <Button color="secondary">Détails</Button>
                           </Link>
                         </div>

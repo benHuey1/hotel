@@ -1,10 +1,12 @@
-import { notFound } from 'next/navigation';
+'use client';
+import { notFound, usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Option } from '@/types';
 import { Button } from '@nextui-org/button';
 import AnimatedButtonArrow from '@/components/animate-arrow';
 import { ArrowBackIcon } from '@/components/icons';
 import { PrismaClient } from '@prisma/client';
+import { useLocale } from 'next-intl';
 
 //  -----------------------------------------------------
 // const prisma = new PrismaClient();
@@ -49,6 +51,28 @@ export default async function RoomPage({
 }: {
   params: { hotelId: string; roomId: string };
 }) {
+  // const locale = useLocale();
+  // const searchParams = useSearchParams();
+  
+  // // Extract search parameters
+  // const rooms = searchParams.get('rooms');
+  // const adults = searchParams.get('adults');
+  // const children = searchParams.get('children');
+  // const start = searchParams.get('start');
+  // const end = searchParams.get('end');
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const locale = useLocale();
+
+  const rooms = searchParams.get('rooms');
+  const adults = searchParams.get('adults');
+  const children = searchParams.get('children');
+  const start = searchParams.get('start');
+  const end = searchParams.get('end');
+
+  const backUrl = `/${locale}/hotels/${params.hotelId}?rooms=${rooms || ''}&adults=${adults || ''}&children=${children || ''}&start=${start || ''}&end=${end || ''}`;
+
+  const fetchRoom = async () => {
   try {
     const room = await getRoom(params.hotelId, params.roomId);
 
@@ -56,6 +80,14 @@ export default async function RoomPage({
       // notFound();
       return <div>Room not found or error loading room data.</div>;
     }
+        // Construct the back URL with all search parameters
+        // const backUrl = `/hotels/${params.hotelId}?` + 
+        // `rooms=${rooms || ''}&` +
+        // `adults=${adults || ''}&` +
+        // `children=${children || ''}&` +
+        // `start=${start || ''}&` +
+        // `end=${end || ''}`;
+  
 
     return (
       <div>
@@ -73,7 +105,8 @@ export default async function RoomPage({
         ) : (
           <p>Pas d'options disponibles</p>
         )}
-        <Link href={`/hotels/${params.hotelId}`}>
+        {/* <Link href={`/hotels/${params.hotelId}`}> */}
+        <Link href={backUrl}>
           <Button
             className="mt-4 rounded bg-tertiary px-4 py-2 font-bold text-white hover:bg-gray-500"
             startContent={<ArrowBackIcon fillColor="white" />}
@@ -90,4 +123,6 @@ export default async function RoomPage({
     console.error('Error in RoomPage:', error);
     return <div>An error occurred while fetching the room data.</div>;
   }
+  }
+  return fetchRoom();
 }

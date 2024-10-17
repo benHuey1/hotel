@@ -11,6 +11,7 @@ import { Providers } from './providers';
 import { Suspense } from 'react';
 import { RoomSkeleton } from '@/components/ui/rooms-skeleton';
 import { locales } from '@/config/config';
+import ClientLanguageChange from '@/components/client-language-change';
 
 export function generateStaticParams() {
   // return [{locale: 'fr'}, {locale: 'en'}, {locale: 'es'}];
@@ -54,6 +55,7 @@ export default async function RootLayout({
       <body className={clsx('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers themeProps={{ attribute: 'class', defaultTheme: 'light' }}>
+            <ClientLanguageChange />
               {/* <div className="relative flex h-screen flex-col"> */}
               <div className="relative flex h-full w-full flex-col">
                 <Navbar />

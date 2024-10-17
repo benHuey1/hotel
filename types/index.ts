@@ -56,6 +56,16 @@ export interface SearchBookingProps {
   };
 }
 
+export interface HotelProps {
+  initialValues?: {
+    rooms?: number;
+    adults?: number;
+    children?: number;
+    startDate?: Date;
+    endDate?: Date;
+    selectedCountryId?: string;
+  };
+}
 // export type SelectKeys = Set<string>
 
 // Types Hotel
