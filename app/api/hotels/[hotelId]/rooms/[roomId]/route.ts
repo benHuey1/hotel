@@ -9,6 +9,12 @@ export async function GET(
   { params }: { params: { hotelId: string; roomId: string } },
 ) {
   const { hotelId, roomId } = params;
+  const { searchParams } = new URL(request.url);
+  const rooms = parseInt(searchParams.get('rooms') || '0');
+  const adults = parseInt(searchParams.get('adults') || '0');
+  const children = parseInt(searchParams.get('children') || '0');
+  const start = searchParams.get('start');
+  const end = searchParams.get('end');
   try {
     const room = await prisma.rooms.findUnique({
       where: {

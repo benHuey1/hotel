@@ -127,6 +127,17 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
     endDate,
     selectedCountryId: params.hotelId
   };
+    // Fonction pour construire l'URL avec les paramètres de recherche
+    const buildRoomUrl = (roomId: string) => {
+      const urlParams = new URLSearchParams({
+        rooms: rooms as string || '',
+        adults: adults as string || '',
+        children: children as string || '',
+        start: start as string || '',
+        end: end as string || '',
+      });
+      return `/${params.locale}/hotels/${params.hotelId}/rooms/${roomId}?${urlParams.toString()}`;
+    };
 
   return (
     <div className='w-full h-full flex flex-col md:flex-row'>
@@ -162,8 +173,9 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
                       </p>
                       <div className='flex flex-col-reverse md:flex-row md:justify-start gap-4'>
                         <div className='w-full md:w-1/5 text-center'>
-                          <Link href={`/hotels/${hotel.id}/rooms/${room.id}`}>
-                          {/* <Link href={`/${locale}/hotels/${selectedCountry.id}?rooms=${room}&adults=${family.adults}&children=${family.children}&start=${dateRange.startDate?.toLocaleDateString().split('T')[0]}&end=${dateRange.endDate?.toLocaleDateString().split('T')[0]}`}> */}
+                          {/* <Link href={`/hotels/${hotel.id}/rooms/${room.id}`}> */}
+                          <Link href={buildRoomUrl(room.id)}>
+                          {/* <Link href={`/${params.locale}/hotels/${params.hotelId}?rooms=${room}&adults=${adultsNum}&children=${childrenNum}&start=${startDate?.toLocaleDateString().split('T')[0]}&end=${endDate?.toLocaleDateString().split('T')[0]}/rooms/${room.id}`}> */}
                             <Button color="secondary">Détails</Button>
                           </Link>
                         </div>
