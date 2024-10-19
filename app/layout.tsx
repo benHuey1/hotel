@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 import { Metadata, Viewport } from 'next';
 import { siteConfig } from '@/config/site';
-import {getMessages, getTranslations} from 'next-intl/server';
+import {getMessages, getTranslations, unstable_setRequestLocale} from 'next-intl/server';
 import clsx from 'clsx';
 import { NextIntlClientProvider } from 'next-intl';
 import { fontSans } from '@/config/fonts';
@@ -42,6 +42,7 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: {locale: string};
 }) {
+  unstable_setRequestLocale(locale);
   let messages;
   try {
     messages = (await import(`../messages/${locale}.json`)).default;
