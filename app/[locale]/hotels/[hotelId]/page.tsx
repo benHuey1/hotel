@@ -87,6 +87,17 @@ async function getHotels(): Promise<Hotel[]> {
   }
 }
 
+export async function generateStaticParams() {
+  const hotels = await getHotels(); // Votre fonction pour récupérer tous les hôtels
+
+  return hotels.flatMap((hotel) => 
+    ['en', 'fr', 'es'].map((locale) => ({
+      locale,
+      hotelId: hotel.id
+    }))
+  );
+}
+
 export default async function HotelPage({ params, searchParams }: { params: { hotelId: string, locale: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
   const hotel = await getHotel(params.hotelId, searchParams);
   const countries: Hotel[] = await getHotels();
