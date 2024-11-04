@@ -1,8 +1,12 @@
 'use client';
 
+export const dynamic = 'force-dynamic'
+// 'auto' | 'force-dynamic' | 'error' | 'force-static'
+
 import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
 import { useEffect } from 'react';
+
 
 export default function Error({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
