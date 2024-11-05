@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic'
+// 'auto' | 'force-dynamic' | 'error' | 'force-static'
+
 import { ArrowBackIcon, PersonIcon } from '@/components/icons';
 import { Hotel, Option, Room } from '@/types';
 import { Button } from '@nextui-org/button';
@@ -6,13 +9,13 @@ import { Link } from '@nextui-org/link';
 import { notFound } from 'next/navigation';
 // import prisma from '@/lib/prisma';
 // import Caroussel from '@/components/caroussel';
-import dynamic from 'next/dynamic';
+import dynamics from 'next/dynamic';
 import { differenceInDays, parse, parseISO } from 'date-fns';
 import SearchBooking from '@/components/search-booking';
 import { prisma } from '@/lib/prisma';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 
-const Caroussel = dynamic(() => import('@/components/caroussel'), { ssr: false });
+const Caroussel = dynamics(() => import('@/components/caroussel'), { ssr: false });
 
 
 //  -----------------------------------------------------
@@ -37,8 +40,8 @@ const Caroussel = dynamic(() => import('@/components/caroussel'), { ssr: false }
 async function getHotel(hotelId: string, searchParams: { [key: string]: string | string[] | undefined }) {
   try {
     const queryString = new URLSearchParams(searchParams as Record<string, string>).toString();
-    const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
-    // const res = await fetch(`https://hotel-karibu.vercel.app/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
+    // const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
+    const res = await fetch(`https://hotel-karibu.vercel.app/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
     if (!res.ok) {
       throw new Error(`Failed to fetch hotel: ${res.status}`);
     }
@@ -86,17 +89,6 @@ async function getHotels(): Promise<Hotel[]> {
     return [];
   }
 }
-
-// export async function generateStaticParams() {
-//   const hotels = await getHotels(); // Votre fonction pour récupérer tous les hôtels
-
-//   return hotels.flatMap((hotel) => 
-//     ['en', 'fr', 'es'].map((locale) => ({
-//       locale,
-//       hotelId: hotel.id
-//     }))
-//   );
-// }
 
 export default async function HotelPage({ params, searchParams }: { params: { hotelId: string, locale: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
   const hotel = await getHotel(params.hotelId, searchParams);

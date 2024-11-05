@@ -1,4 +1,7 @@
 'use client';
+export const dynamic = 'force-dynamic'
+// 'auto' | 'force-dynamic' | 'error' | 'force-static'
+
 import { notFound, usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Option } from '@/types';
