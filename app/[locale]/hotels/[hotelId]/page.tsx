@@ -96,6 +96,8 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
   
   unstable_setRequestLocale(params.locale);
   const t = await getTranslations('HotelPage');
+  const tGen = await getTranslations('General');
+  const tSearch = await getTranslations('SearchBooking');
 
   if (!hotel) {
     // console.log(hotel);
@@ -145,9 +147,9 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
   return (
     <div className='w-full h-full flex flex-col md:flex-row'>
       <div className='w-full md:w-1/6 h-20 md:h-screen bg-secondary'>
-        <p className='text-slate-100 text-center py-4'>Modifier la recherche ?</p>
+        <p className='text-slate-100 text-center py-4'>{t("modify_research")}</p>
         <div className='w-full h-full'>
-        <SearchBooking countries={countries} layout='vertical' roomWidth='90%' familyWidth='90%' countryWidth='90%' dateWidth='90%' initialValues={initialValues}/></div>
+        <SearchBooking countries={countries} layout='vertical' roomWidth='90%' familyWidth='90%' countryWidth='90%' dateWidth='90%' initialValues={initialValues} roomText={tSearch('room')} roomPopup={tSearch('room_popup')} personAdult={tSearch('person_adult')} personChild={tSearch('person_child')} personPopup={tSearch('person_popup')} whichHotel={tSearch('which_hotel')}/></div>
       </div>
       <div className='w-full h-full md:w-5/6  p-5'>
         <h1 className='underline underline-offset-4 decoration- decoration-2 decoration-primary pb-4'><span className='text-secondary font-bold'>{t('title')}</span> - {hotel.capital || 'Not Available'} ({hotel.country || 'Not Available'})</h1>
@@ -166,31 +168,56 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
                           {/* {room.type.name} - {room.capacity} <PersonIcon /> */}
                           {room.type} - {room.capacity} <PersonIcon />
                         </h3>
-                        <h4 className='text-secondary'>{hotel.country}</h4>
+                        <h4 className='text-secondary underline underline-offset-2'>{hotel.country}</h4>
                       </div>
-                      <p>
-                        Options:{' '}
+                      {/* <p>
+                        {t("options")}:{' '}
                         {room.options && room.options.length > 0
                           ? room.options.map((option: Option) => option.name).join(', ')
                           : 'Aucune'}
-                      </p>
+                      </p> */}
+                      <div className="columns-2 gap-4 space-y-2 p-4 rounded-lg bg-white">
+                        {room.options && room.options.length > 0 ? (
+                          <>
+                            {room.options.slice(0, 5).map((option: Option) => (
+                              <p 
+                                key={option.id} 
+                                className="break-inside-avoid p-2 bg-gray-50 rounded shadow-sm mb-2 hover:bg-white transition-colors"
+                              >
+                                {option.name}
+                              </p>
+                            ))}
+                            {room.options.length > 5 && (
+                              <div 
+                                className="break-inside-avoid p-2 bg-gray-50 rounded shadow-sm mb-2 hover:bg-white transition-colors"
+                              >
+                                <p className="font-semibold text-gray-500 text-center">
+                                  +{room.options.length - 5} {tGen("other")}{room.options.length - 5 > 1 ? "s" : ""}...
+                                </p>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <p className="text-gray-500 italic">Aucune option disponible</p>
+                        )}
+                      </div>
                       <div className='flex flex-col-reverse md:flex-row md:justify-start gap-4'>
                         <div className='w-full md:w-1/5 text-center'>
                           {/* <Link href={`/hotels/${hotel.id}/rooms/${room.id}`}> */}
                           <Link href={buildRoomUrl(room.id)}>
                           {/* <Link href={`/${params.locale}/hotels/${params.hotelId}?rooms=${room}&adults=${adultsNum}&children=${childrenNum}&start=${startDate?.toLocaleDateString().split('T')[0]}&end=${endDate?.toLocaleDateString().split('T')[0]}/rooms/${room.id}`}> */}
-                            <Button color="secondary">Détails</Button>
+                            <Button color="secondary">{t("details")}</Button>
                           </Link>
                         </div>
                         <div className='w-full flex justify-between'>
-                          <p className='underline underline-offset-4 content-center'>{room.cost} €/nuit</p>
+                          <p className='underline underline-offset-4 content-center'><b>{room.cost} €</b>/{t("night")}</p>
                           {bookingNights && bookingNights ? (
                             <>
-                              <p className='content-center'> {bookingNights} nuits</p>
+                              <p className='content-center'> {bookingNights} {t("night")}s</p>
                               <p className='content-center'>Total: {bookingNights*room.cost} €</p>
                             </>
                           ) : (
-                            <p className='text-red-500 content-center'>Choisissez une période</p>
+                            <p className='text-red-500 content-center'>{t("missing_date")}</p>
                           )}
                         </div>
                       </div>
@@ -200,14 +227,14 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
             </div>
           </>
         ) : (
-          <p>Pas de chambres disponibles</p>
+          <p>{t("no_room_available")}</p>
         )}
         <Link href="/">
           <Button
             className="bg-tertiary text-white hover:bg-gray-500"
             startContent={<ArrowBackIcon fillColor="white" />}
           >
-            Accueil
+            {tGen("homepage")}
           </Button>
         </Link>
       </div>

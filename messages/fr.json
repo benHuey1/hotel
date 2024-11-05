@@ -1,7 +1,11 @@
 {
   "Navbar": {
-    "customerService": "service client",
+    "customer_service": "service client",
     "connexion": "connexion"
+  },
+  "General": {
+    "homepage": "Page d'accueil",
+    "other": "autre"
   },
   "HomePage": {
     "title": "Bonjour le monde!",
@@ -15,6 +19,20 @@
     "hotel_ours": "Nos hôtels"
   },
   "HotelPage": {
-    "title": "L'Hôtel Karibu"
+    "title": "L'Hôtel Karibu",
+    "missing_date": "Choisissez une période",
+    "modify_research": "Modifier la recherche ?",
+    "options": "Options",
+    "details": "Détails",
+    "night": "nuit",
+    "no_room_available": "Pas de chambres disponibles.."
+  },
+  "SearchBooking": {
+    "room": "chambre(s)",
+    "room_popup": "Nombre de chambres",
+    "person_adult": "adulte(s)",
+    "person_child": "enfant(s)",
+    "person_popup": "Nombre de personnes",
+    "which_hotel": "Quel hôtel ?"
   }
 }

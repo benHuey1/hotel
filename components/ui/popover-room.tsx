@@ -6,10 +6,12 @@ interface PopoverRoomProps {
   classNameTrigger?: string;
   room: number;
   setRoom: React.Dispatch<React.SetStateAction<number>>;
+  roomText: string;
+  roomPopup: string;
   // Other props...
 }
 
-const PopoverRoom: React.FC<PopoverRoomProps> = ({ classNameTrigger, room, setRoom, ...props }) => {
+const PopoverRoom: React.FC<PopoverRoomProps> = ({ classNameTrigger, room, setRoom, roomText, roomPopup, ...props }) => {
   return (
     <Popover placement="bottom" showArrow offset={10}>
       <PopoverTrigger className={classNameTrigger}>
@@ -18,14 +20,14 @@ const PopoverRoom: React.FC<PopoverRoomProps> = ({ classNameTrigger, room, setRo
           className="text-default-foregrounddata tap-highlight-revert dark:text-black"
           startContent={<Image src="/icon/sleeping-red.png" width={30} height={30} />}
         >
-          {room} chambres
+          {room} {roomText}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px]">
         {(titleProps) => (
           <div className="w-full px-1 py-2">
             <p className="text-small font-bold text-foreground" {...titleProps}>
-              Nombre de chambres
+              {roomPopup}
             </p>
             <div className="mt-2 flex w-full flex-col gap-2">
               <form action="" className=" space-y-2">
@@ -34,7 +36,7 @@ const PopoverRoom: React.FC<PopoverRoomProps> = ({ classNameTrigger, room, setRo
                   type="number"
                   min={0}
                   max={5}
-                  label="Chambres"
+                  label={roomText}
                   size="sm"
                   variant="bordered"
                   value={`${room}`}

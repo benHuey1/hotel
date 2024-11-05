@@ -8,12 +8,13 @@ const CountriesList: React.FC<PopoverCountriesProps> = ({
     selectedCountry,
     setSelectedCountry,
     classNameTrigger,
+    whichHotel,
     ...props
   }) => {
     return (
       <Select
         aria-label="Selection de l'hôtel"
-        placeholder="Quel hôtel ?"
+        placeholder={whichHotel}
         onSelectionChange={(keys) => {
           const selectedId = Array.from(keys)[0] as string;
           const selected = countries.find((country) => country.id === selectedId);

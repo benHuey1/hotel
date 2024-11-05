@@ -35,6 +35,7 @@ async function getHotels(): Promise<Hotel[]> {
   export default async function Home({ params: { locale } }: { params: { locale: string } }) {
     unstable_setRequestLocale(locale);
   const t = await getTranslations('HomePage');
+  const tSearch = await getTranslations('SearchBooking');
   // const hotels: Hotel[] = await prisma.hotels.findMany({
   //   include: {
   //     Rooms: true,
@@ -54,7 +55,7 @@ async function getHotels(): Promise<Hotel[]> {
       >
         {/* <div className="flex items-center h-[80%] px-10 py-5"> */}
         <div className="flex w-full items-center justify-center px-4 sm:px-10">
-          <SearchBooking countries={countries} layout='horizontal' roomWidth='40%'  familyWidth='60%' countryWidth='80%' dateWidth='100%'/>
+          <SearchBooking countries={countries} layout='horizontal' roomWidth='40%'  familyWidth='60%' countryWidth='80%' dateWidth='100%'  roomText={tSearch('room')} roomPopup={tSearch('room_popup')} personAdult={tSearch('person_adult')} personChild={tSearch('person_child')} personPopup={tSearch('person_popup')} whichHotel={tSearch('which_hotel')}/>
         </div>
       </div>
       <div className="flex w-full flex-col items-start gap-16 py-10 md:gap-0">

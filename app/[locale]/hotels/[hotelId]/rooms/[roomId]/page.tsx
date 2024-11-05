@@ -32,8 +32,8 @@ import { useLocale } from 'next-intl';
 //  -----------------------------------------------------
 async function getRoom(hotelId: string, roomId: string) {
   try {
-    // const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}/rooms/${roomId}`, {
-      const res = await fetch(`https://hotel-karibu.vercel.app/api/hotels/${hotelId}/rooms/${roomId}`, {
+    const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}/rooms/${roomId}`, {
+      // const res = await fetch(`https://hotel-karibu.vercel.app/api/hotels/${hotelId}/rooms/${roomId}`, {
       cache: 'no-store',
     });
     if (!res.ok) {

@@ -36,6 +36,7 @@ export interface PopoverCountriesProps {
   //  setCountry: React.Dispatch<React.SetStateAction<Hotel[]>>;
   selectedCountry: Hotel | null;
   setSelectedCountry: React.Dispatch<React.SetStateAction<Hotel | null>>;
+  whichHotel: string;
   // Other props...
 }
 
@@ -54,6 +55,12 @@ export interface SearchBookingProps {
     endDate?: Date;
     selectedCountryId?: string;
   };
+  roomText: string;
+  roomPopup: string;
+  personAdult: string;
+  personChild: string;
+  personPopup: string;
+  whichHotel: string;
 }
 
 export interface RoomProps {

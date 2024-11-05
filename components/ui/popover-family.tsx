@@ -9,6 +9,9 @@ interface PopoverFamilyProps {
     children: number;
   };
   setFamily: React.Dispatch<React.SetStateAction<{ adults: number; children: number }>>;
+  personAdult: string;
+  personChild: string;
+  personPopup: string;
   // Other props...
 }
 
@@ -16,6 +19,9 @@ const PopoverFamily: React.FC<PopoverFamilyProps> = ({
   classNameTrigger,
   family,
   setFamily,
+  personAdult,
+  personChild,
+  personPopup,
   ...props
 }) => {
   // const [adults, setAdults] = useState(0);
@@ -34,14 +40,14 @@ const PopoverFamily: React.FC<PopoverFamilyProps> = ({
           className="tap-highlight-revert dark:text-black"
           startContent={<Image src="/icon/family-red.png" width={30} height={30} />}
         >
-          {family.adults} Adultes - {family.children} enfants
+          {family.adults} {personAdult} - {family.children} {personChild}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[240px]">
         {(titleProps) => (
           <div className="w-full px-1 py-2">
             <p className="text-small font-bold text-foreground" {...titleProps}>
-              Nombre de personnes
+              {personPopup}
             </p>
             <div className="mt-2 flex w-full flex-col gap-2"> 
               <form action="" className=" space-y-2">
@@ -50,7 +56,7 @@ const PopoverFamily: React.FC<PopoverFamilyProps> = ({
                   type="number"
                   min={0}
                   max={6}
-                  label="Adultes"
+                  label={personAdult}
                   size="sm"
                   variant="bordered"
                   startContent={<Image src="/icon/adults.png" width={20} height={20} />}
@@ -64,7 +70,7 @@ const PopoverFamily: React.FC<PopoverFamilyProps> = ({
                   min={0}
                   max={6}
                   defaultValue="300px"
-                  label="Enfants"
+                  label={personChild}
                   size="sm"
                   variant="bordered"
                   startContent={<Image src="/icon/kids.png" width={20} height={20} />}

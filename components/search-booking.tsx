@@ -22,7 +22,13 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
   countryWidth, 
   dateWidth,
   layout,
-  initialValues
+  initialValues,
+  roomText,
+  roomPopup,
+  personAdult,
+  personChild,
+  personPopup,
+  whichHotel
 }) => {
   const [room, setRoom] = useState(initialValues?.rooms || 0);
   const [family, setFamily] = useState({ adults: initialValues?.adults || 0, children: initialValues?.children || 0 });
@@ -117,6 +123,8 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
               :  'w-full'
               }
             `}
+            roomText={roomText}
+            roomPopup={roomPopup}
           />
           <PopoverFamily
             family={family}
@@ -128,6 +136,9 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
               :  'w-full'
               }
             `}
+            personAdult={personAdult}
+            personChild={personChild}
+            personPopup={personPopup}
           />
           <CountriesList
             countries={countries}
@@ -140,6 +151,7 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
               :  'w-full'
               }
             `}
+            whichHotel={whichHotel}
           />
           <DateRangePickerBooking
             dateRange={dateRange}
