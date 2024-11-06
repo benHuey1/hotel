@@ -29,6 +29,13 @@ export interface DropdownChoiceProps {
   ariaLabel: string;
 }
 
+export interface NavbarProps {
+  translations: {
+    customerService: string;
+    connexion: string;
+  };
+}
+
 export interface PopoverCountriesProps {
   // Define the expected props here
   classNameTrigger?: string;

@@ -37,8 +37,11 @@ import React, { useEffect, useState } from 'react';
 import LanguageDropdown from './language-dropdown';
 import CurrencyDropdown from './currency-dropdown';
 import { useClientTranslations } from '@/lib/useClientTranslations';
+import { NavbarProps } from '@/types';
 
-export const Navbar = () => {
+export const Navbar: React.FC<NavbarProps> = (
+  translations
+) => {
   // const searchInput = (
   //   <Input
   //     aria-label="Search"
@@ -81,6 +84,7 @@ export const Navbar = () => {
       position="sticky"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
+      className='shadow-lg'
     >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="max-w-fit gap-3">
@@ -117,12 +121,12 @@ export const Navbar = () => {
         <NavbarItem className="hidden gap-2 sm:flex">
           <Link aria-label="Service-Client" href="/service-client" className="text-inherit">
             {/* {t('customerService')} */}
-            Service client
+            {translations.translations.customerService}
           </Link>
           <CurrencyDropdown/>
           <LanguageDropdown/>
           <Link aria-label="Connexion" href="/connexion" className="text-inherit">
-            Connexion
+            {translations.translations.connexion}
           </Link>
           {/* <Link isExternal aria-label="Twitter" href={siteConfig.links.twitter}>
             <TwitterIcon className="text-default-500" />

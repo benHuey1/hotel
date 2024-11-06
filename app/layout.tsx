@@ -6,7 +6,7 @@ import { Metadata, Viewport } from 'next';
 import { siteConfig } from '@/config/site';
 import {getMessages, getTranslations, unstable_setRequestLocale} from 'next-intl/server';
 import clsx from 'clsx';
-import { NextIntlClientProvider } from 'next-intl';
+import { NextIntlClientProvider, useTranslations } from 'next-intl';
 import { fontSans } from '@/config/fonts';
 import {ReactNode} from 'react';
 import { Navbar } from '@/components/navbar';
@@ -55,6 +55,8 @@ export default async function RootLayout({
     messages = {}; // Fallback to empty messages
   }
 
+  const tNav = await getTranslations("Navbar");
+
   return (
     <html lang={locale}>
       {/* <body className={clsx('min-h-screen bg-background font-sans antialiased', fontSans.variable)}> */}
@@ -65,7 +67,7 @@ export default async function RootLayout({
               <ClientLanguageChange />
                 {/* <div className="relative flex h-screen flex-col"> */}
                 <div className="relative flex h-full w-full flex-col">
-                  <Navbar />
+                  <Navbar translations={{customerService: tNav('customer_service'), connexion: tNav('connexion')}}/>
                   {/* <main className="container mx-auto max-w-7xl flex-grow px-6 pt-16">{children}</main> */}
                   <Suspense
                     fallback={

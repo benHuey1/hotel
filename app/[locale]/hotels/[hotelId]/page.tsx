@@ -145,24 +145,37 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
     };
 
   return (
-    <div className='w-full h-full flex flex-col md:flex-row'>
-      <div className='w-full md:w-1/6 h-20 md:h-screen bg-secondary'>
-        <p className='text-slate-100 text-center py-4'>{t("modify_research")}</p>
-        <div className='w-full h-full'>
-        <SearchBooking countries={countries} layout='vertical' roomWidth='90%' familyWidth='90%' countryWidth='90%' dateWidth='90%' initialValues={initialValues} roomText={tSearch('room')} roomPopup={tSearch('room_popup')} personAdult={tSearch('person_adult')} personChild={tSearch('person_child')} personPopup={tSearch('person_popup')} whichHotel={tSearch('which_hotel')}/></div>
+    <div className='w-full h-full flex flex-col lg:flex-row'>
+      <div className='w-full lg:w-1/4 h-full overflow-hidden lg:h-screen flex flex-col justify-start bg-secondary rounded-b-xl content-center lg:content-start py-5 px-5'>
+        <Button className="block lg:hidden bg-transparent text-white hover:bg-gray-500">
+            {t("modify_research")}
+        </Button>
+        <p className='hidden lg:block text-white text-center pb-4'>{t("modify_research")}</p>
+        <div className='w-full flex justify-center'>
+          <SearchBooking countries={countries} layout='vertical' roomWidth='60%' familyWidth='70%' countryWidth='80%' dateWidth='90%' initialValues={initialValues} roomText={tSearch('room')} roomPopup={tSearch('room_popup')} personAdult={tSearch('person_adult')} personChild={tSearch('person_child')} personPopup={tSearch('person_popup')} whichHotel={tSearch('which_hotel')}/>
+        </div>
       </div>
-      <div className='w-full h-full md:w-5/6  p-5'>
+      {/* <div className='w-full lg:w-1/4 h-16 overflow-hidden lg:h-screen flex flex-col justify-start bg-secondary rounded-b-xl content-center lg:content-start py-5 px-5'>
+        <Button className="block lg:hidden bg-transparent text-white hover:bg-gray-500">
+            {t("modify_research")}
+        </Button>
+        <p className='hidden lg:block text-white text-center pb-4'>{t("modify_research")}</p>
+        <div className='w-full flex justify-center'>
+          <SearchBooking countries={countries} layout='vertical' roomWidth='60%' familyWidth='70%' countryWidth='80%' dateWidth='90%' initialValues={initialValues} roomText={tSearch('room')} roomPopup={tSearch('room_popup')} personAdult={tSearch('person_adult')} personChild={tSearch('person_child')} personPopup={tSearch('person_popup')} whichHotel={tSearch('which_hotel')}/>
+        </div>
+      </div> */}
+      <div className='w-full h-full lg:w-3/4 p-5'>
         <h1 className='underline underline-offset-4 decoration- decoration-2 decoration-primary pb-4'><span className='text-secondary font-bold'>{t('title')}</span> - {hotel.capital || 'Not Available'} ({hotel.country || 'Not Available'})</h1>
         {/* <p className='text-red-500 py-4'>Recherche : {rooms} {Number(rooms)>1 ? 'chambres' :'chambre'}, {adults} {Number(adults)>1 ? 'adultes' :'adulte'}, {children} {Number(children)>1 ? 'enfants' :'enfant'}, du {start} au {end} = {(Number(end)-Number(start)/3600)}h</p> */}
         <p className='text-red-500 py-4'>Recherche : {roomsNum} chambre{roomsNum>1 ? 's' :''}, {adultsNum} adulte{adultsNum>1 ? 's' :''}, {childrenNum} enfant{childrenNum>1 ? 's' :''}, du {start} au {end} = {bookingNights} nuit{bookingNights>1 ? 's' : ''}</p>
         {hotel.Rooms && hotel.Rooms.length > 0 ? (
           <>
-            <div className='flex flex-col gap-8'>
+            <div className='flex flex-col gap-20'>
               {hotel.Rooms.map((room: Room, index: number) => (
                   // <div className='w-full flex flex-col md:flex-row hover:outline outline-secondary outline-offset-4 rounded-lg'>
-                  <div className='w-full flex flex-col md:flex-row hover:outline outline-transparent hover:outline-secondary outline-offset-4 transition-all duration-300 ease-in-out'>
-                    {room.pictures && room.pictures.length > 0 && <div className="w-full md:w-1/2 rounded-lg"><Caroussel pictures={room.pictures} /></div>}
-                    <div key={room.id} className='w-full md:w-1/2 flex flex-col md:justify-between p-2 gap-4'>
+                  <div className='w-full flex flex-col lg:flex-row hover:outline outline-transparent hover:outline-secondary outline-offset-4 transition-all duration-300 ease-in-out'>
+                    {room.pictures && room.pictures.length > 0 && <div className="w-full lg:w-1/2 rounded-lg"><Caroussel pictures={room.pictures} /></div>}
+                    <div key={room.id} className='w-full lg:w-1/2 flex flex-col md:justify-between p-2 gap-4'>
                       <div>
                         <h3 className="text-secondary flex gap-2">
                           {/* {room.type.name} - {room.capacity} <PersonIcon /> */}
@@ -176,20 +189,20 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
                           ? room.options.map((option: Option) => option.name).join(', ')
                           : 'Aucune'}
                       </p> */}
-                      <div className="columns-2 gap-4 space-y-2 p-4 rounded-lg bg-white">
+                      <div className="columns-2 gap-4 space-y-2 p-4 rounded-lg bg-transparent">
                         {room.options && room.options.length > 0 ? (
                           <>
                             {room.options.slice(0, 5).map((option: Option) => (
                               <p 
                                 key={option.id} 
-                                className="break-inside-avoid p-2 bg-gray-50 rounded shadow-sm mb-2 hover:bg-white transition-colors"
+                                className="break-inside-avoid p-2 bg-gray-50 dark:bg-slate-800 rounded shadow-sm mb-2 hover:bg-white dark:hover:bg-black transition-colors"
                               >
                                 {option.name}
                               </p>
                             ))}
                             {room.options.length > 5 && (
                               <div 
-                                className="break-inside-avoid p-2 bg-gray-50 rounded shadow-sm mb-2 hover:bg-white transition-colors"
+                                className="break-inside-avoid p-2 bg-gray-50 dark:bg-slate-800 rounded shadow-sm mb-2 hover:bg-white transition-colors"
                               >
                                 <p className="font-semibold text-gray-500 text-center">
                                   +{room.options.length - 5} {tGen("other")}{room.options.length - 5 > 1 ? "s" : ""}...
@@ -231,7 +244,7 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
         )}
         <Link href="/">
           <Button
-            className="bg-tertiary text-white hover:bg-gray-500"
+            className="bg-tertiary text-white hover:bg-gray-500 mt-10"
             startContent={<ArrowBackIcon fillColor="white" />}
           >
             {tGen("homepage")}

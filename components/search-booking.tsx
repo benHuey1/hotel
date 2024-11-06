@@ -87,14 +87,14 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
         className={`flex w-full max-w-[450px] ${
         layout === 'horizontal' 
           ? 'h-auto flex-col-reverse sm:h-60 sm:flex-row' 
-          : 'flex-col-reverse'
+          : 'flex-col-reverse lg:h-60'
         }`}
         onSubmit={submitDatas}
       >
         <div className={`flex w-3/4 ${
           layout === 'horizontal' 
             ? 'sm:h-4/6 sm:w-1/4 sm:justify-end'
-            :  'h-16 w-full justify-center'
+            :  'h-full w-full justify-center'
         }`}>
           <Button
             type="submit"
@@ -102,10 +102,10 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
             className={`h-full w-full rounded-xl border-4 border-[#F9A72B] bg-[#FF5757] ${
             layout === 'horizontal' 
             ? 'sm:rounded-r-none'
-            :  ''
+            :  'h-20'
             }`}
           >
-            <Image src="icon/magnifier.png" width={40} height={40} />
+            <Image src="/icon/magnifier.png" width={40} height={40} />
           </Button>
         </div>
         <div className={`flex h-full flex-col ${
@@ -116,10 +116,10 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
           <PopoverRoom
             room={room}
             setRoom={setRoom}
-            classNameTrigger={`h-16 sm:h-1/6 flex justify-start rounded-l bg-white border-[#F9A72B] border-4 border-b-2 sm:border-t-4 sm:border-r-4 sm:border-l-2 sm:border-b-2
+            classNameTrigger={`flex justify-start bg-white border-[#F9A72B] border-4 border-b-2 sm:border-t-4 sm:border-r-4 sm:border-l-2 sm:border-b-2
               ${   
                 layout === 'horizontal' 
-              ? `w-3/4 sm:w-[${roomWidth}] sm:rounded-l-none`
+              ? `w-3/4 sm:w-[${roomWidth}] h-16 sm:h-1/6 sm:rounded-l-none`
               :  'w-full'
               }
             `}
@@ -129,10 +129,10 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
           <PopoverFamily
             family={family}
             setFamily={setFamily}
-            classNameTrigger={`h-16 sm:h-1/6 flex justify-start rounded-l sm:rounded-l-none bg-white border-[#F9A72B] border-4 border-y-2 sm:border-4 sm:border-l-2 sm:border-t-2 sm:border-b-2
+            classNameTrigger={`flex justify-start bg-white border-[#F9A72B] border-4 border-y-2 sm:border-4 sm:border-l-2 sm:border-t-2 sm:border-b-2
               ${   
                 layout === 'horizontal' 
-              ? `w-3/4 sm:w-[${familyWidth}] sm:rounded-l-none`
+              ? `w-3/4 sm:w-[${familyWidth}] h-16 sm:h-1/6 sm:rounded-l-none`
               :  'w-full'
               }
             `}
@@ -144,10 +144,10 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
             countries={countries}
             selectedCountry={selectedCountry}
             setSelectedCountry={setSelectedCountry}
-            classNameTrigger={`h-16 sm:h-1/6 flex justify-start rounded-l sm:rounded-l-none bg-white border-[#F9A72B] border-4 border-y-2 sm:border-r-4 sm:border-l-2 sm:border-t-2 sm:border-b-2
+            classNameTrigger={`flex justify-start bg-white border-[#F9A72B] border-4 border-y-2 sm:border-r-4 sm:border-l-2 sm:border-t-2 sm:border-b-2
               ${   
                 layout === 'horizontal' 
-              ? `w-3/4 sm:w-[${countryWidth}] sm:rounded-l-none`
+              ? `w-3/4 sm:w-[${countryWidth}] h-16 sm:h-1/6 sm:rounded-l-none`
               :  'w-full'
               }
             `}
@@ -156,10 +156,10 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
           <DateRangePickerBooking
             dateRange={dateRange}
             setDateRange={setDateRange}
-            classNameTrigger={`h-16 sm:h-2/6 flex flex-row justify-start rounded-l sm:rounded-l-none bg-white border-[#F9A72B] border-4 border-y-2 sm:border-r-4 sm:border-l-2 sm:border-t-2 sm:border-b-4
+            classNameTrigger={`flex flex-row justify-start bg-white border-[#F9A72B] border-4 border-y-2 sm:border-r-4 sm:border-l-2 sm:border-t-2 sm:border-b-4
               ${   
                 layout === 'horizontal' 
-              ? `w-3/4 sm:w-[${dateWidth}] sm:rounded-l-none`
+              ? `w-3/4 sm:w-[${dateWidth}] h-16 sm:h-2/6 sm:rounded-l-none`
               :  'w-full'
               }
             `}
