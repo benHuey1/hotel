@@ -91,8 +91,8 @@ export const Navbar: React.FC<NavbarProps> = (
           <NextLink className="flex items-center justify-start gap-1" href="/">
             <Logo />
             <div>
-              <p className="text-2xl font-bold text-[#f9a72b]">Hotel Karibu</p>
-              <p className="text-tiny uppercase text-[#ff5757]">piece of heaven</p>
+              <p className="hidden md:block text-2xl font-bold text-[#f9a72b]">Hotel Karibu</p>
+              <p className="hidden md:block text-tiny uppercase text-[#ff5757]">piece of heaven</p>
             </div>
           </NextLink>
         </NavbarBrand>
@@ -114,6 +114,8 @@ export const Navbar: React.FC<NavbarProps> = (
         </ul> */}
       </NavbarContent>
       <NavbarContent className="md:invisible" justify="end">
+        <CurrencyDropdown/>
+        <LanguageDropdown/>
         <ThemeSwitch />
         <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
       </NavbarContent>
@@ -164,8 +166,8 @@ export const Navbar: React.FC<NavbarProps> = (
       </NavbarContent> */}
 
       <NavbarMenu className="top-16">
-        <div className='flex justify-between items-start mt-2'>
-          <div className="mx-4 flex flex-col gap-2">
+        <div className='flex justify-between items-start'>
+          <div className="mx-4 flex flex-col gap-2 mt-2">
             {siteConfig.navItems.map((item, index) => (
               <NavbarMenuItem key={`${item}-${index}`}>
                 <NextLink
@@ -178,6 +180,10 @@ export const Navbar: React.FC<NavbarProps> = (
               </NavbarMenuItem>
             ))}
           </div>
+          {/* <div className='flex flex-col justify-end'>
+            <CurrencyDropdown/>
+            <LanguageDropdown/>
+          </div> */}
         </div>
       </NavbarMenu>
     </NextUINavbar>
