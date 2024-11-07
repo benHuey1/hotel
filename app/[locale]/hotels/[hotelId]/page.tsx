@@ -166,7 +166,7 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
           <SearchBooking countries={countries} layout='vertical' roomWidth='60%' familyWidth='70%' countryWidth='80%' dateWidth='90%' initialValues={initialValues} roomText={tSearch('room')} roomPopup={tSearch('room_popup')} personAdult={tSearch('person_adult')} personChild={tSearch('person_child')} personPopup={tSearch('person_popup')} whichHotel={tSearch('which_hotel')}/>
         </div>
       </div> */}
- <ExpandableSearchSection 
+      <ExpandableSearchSection 
         countries={countries}
         initialValues={initialValues}
         text={t('modify_research')}
