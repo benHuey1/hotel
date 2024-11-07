@@ -114,12 +114,13 @@ export const Navbar: React.FC<NavbarProps> = (
         </ul> */}
       </NavbarContent>
       <NavbarContent className="md:invisible" justify="end">
+        <ThemeSwitch />
         <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
       </NavbarContent>
       {/* <NavbarContent className="hidden basis-1/5 sm:flex sm:basis-full" justify="end"> */}
       <NavbarContent className="hidden basis-1/5 sm:flex sm:basis-full" justify="end">
         <NavbarItem className="hidden gap-2 sm:flex">
-          <Link aria-label="Service-Client" href="/service-client" className="text-inherit">
+          <Link aria-label="Customer-Service" href="/customer-service" className="text-inherit">
             {/* {t('customerService')} */}
             {translations.translations.customerService}
           </Link>
@@ -162,28 +163,23 @@ export const Navbar: React.FC<NavbarProps> = (
         <NavbarMenuToggle />
       </NavbarContent> */}
 
-      {/* <NavbarMenu>
-        {searchInput}
-        <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? 'primary'
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? 'danger'
-                      : 'foreground'
-                }
-                href="#"
-                size="lg"
-              >
-                {item.label}
-              </Link>
-            </NavbarMenuItem>
-          ))}
+      <NavbarMenu className="top-16">
+        <div className='flex justify-between items-start mt-2'>
+          <div className="mx-4 flex flex-col gap-2">
+            {siteConfig.navItems.map((item, index) => (
+              <NavbarMenuItem key={`${item}-${index}`}>
+                <NextLink
+                  key={index}
+                  href={item.href}
+                  onClick={handleLinkClick}
+                >
+                  {item.label}
+                </NextLink>
+              </NavbarMenuItem>
+            ))}
+          </div>
         </div>
-      </NavbarMenu> */}
+      </NavbarMenu>
     </NextUINavbar>
   );
 };
