@@ -27,7 +27,7 @@ Here's my project of a hotel located in different continent. The user can book a
   
 ### Features
 
-- Responsive ⚠️
+- Responsive ✅
 - Authentication ⚠️
 - Authorization ⚠️
 - Booking ⚠️
