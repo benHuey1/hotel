@@ -5,7 +5,12 @@
   },
   "General": {
     "homepage": "Homepage",
-    "other": "other"
+    "other": "other",
+    "refresh": "Refresh",
+    "close": "Close"
+  },
+  "Error": {
+    "oops": "Oops, an error has occurred !"
   },
   "HomePage": {
     "title": "Hello world!",

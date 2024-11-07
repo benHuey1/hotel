@@ -5,8 +5,13 @@
     },
     "General": {
         "homepage": "Página principal",
-        "other": "otro"
-    },
+        "other": "otro",
+        "refresh": "Actualizar",
+        "close": "Cerrar"
+      },
+      "Error": {
+        "oops": "Oops, ¡se ha producido un error!"
+      },
     "HomePage": {
         "title": "¡Hola, mundo!",
         "intro_0_title": "Presente en más de 10 capitales del mundo",

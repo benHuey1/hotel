@@ -14,6 +14,7 @@ import { differenceInDays, parse, parseISO } from 'date-fns';
 import SearchBooking from '@/components/search-booking';
 import { prisma } from '@/lib/prisma';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
+import ExpandableSearchSection from '@/components/expansable-search-booking';
 
 const Caroussel = dynamics(() => import('@/components/caroussel'), { ssr: false });
 
@@ -144,9 +145,19 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
       return `/${params.locale}/hotels/${params.hotelId}/rooms/${roomId}?${urlParams.toString()}`;
     };
 
+      // Pré-traduire tous les textes nécessaires
+  const translations = {
+    room: tSearch('room'),
+    room_popup: tSearch('room_popup'),
+    person_adult: tSearch('person_adult'),
+    person_child: tSearch('person_child'),
+    person_popup: tSearch('person_popup'),
+    which_hotel: tSearch('which_hotel')
+  };
+
   return (
     <div className='w-full h-full flex flex-col lg:flex-row'>
-      <div className='w-full lg:w-1/4 h-full overflow-hidden lg:h-screen flex flex-col justify-start bg-secondary rounded-b-xl content-center lg:content-start py-5 px-5'>
+      {/* <div className='w-full lg:w-1/4 h-full overflow-hidden lg:h-screen flex flex-col justify-start bg-secondary rounded-b-xl content-center lg:content-start py-5 px-5'>
         <Button className="block lg:hidden bg-transparent text-white hover:bg-gray-500">
             {t("modify_research")}
         </Button>
@@ -154,7 +165,14 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
         <div className='w-full flex justify-center'>
           <SearchBooking countries={countries} layout='vertical' roomWidth='60%' familyWidth='70%' countryWidth='80%' dateWidth='90%' initialValues={initialValues} roomText={tSearch('room')} roomPopup={tSearch('room_popup')} personAdult={tSearch('person_adult')} personChild={tSearch('person_child')} personPopup={tSearch('person_popup')} whichHotel={tSearch('which_hotel')}/>
         </div>
-      </div>
+      </div> */}
+ <ExpandableSearchSection 
+        countries={countries}
+        initialValues={initialValues}
+        text={t('modify_research')}
+        textClose={tGen('close')}
+        translations={translations}
+      />
       {/* <div className='w-full lg:w-1/4 h-16 overflow-hidden lg:h-screen flex flex-col justify-start bg-secondary rounded-b-xl content-center lg:content-start py-5 px-5'>
         <Button className="block lg:hidden bg-transparent text-white hover:bg-gray-500">
             {t("modify_research")}
@@ -173,7 +191,7 @@ export default async function HotelPage({ params, searchParams }: { params: { ho
             <div className='flex flex-col gap-20'>
               {hotel.Rooms.map((room: Room, index: number) => (
                   // <div className='w-full flex flex-col md:flex-row hover:outline outline-secondary outline-offset-4 rounded-lg'>
-                  <div className='w-full flex flex-col lg:flex-row hover:outline outline-transparent hover:outline-secondary outline-offset-4 transition-all duration-300 ease-in-out'>
+                  <div className='w-full flex flex-col lg:flex-row hover:outline outline-transparent hover:outline-secondary outline-offset-8 transition-all duration-300 ease-in-out'>
                     {room.pictures && room.pictures.length > 0 && <div className="w-full lg:w-1/2 rounded-lg"><Caroussel pictures={room.pictures} /></div>}
                     <div key={room.id} className='w-full lg:w-1/2 flex flex-col md:justify-between p-2 gap-4'>
                       <div>

@@ -5,7 +5,12 @@
   },
   "General": {
     "homepage": "Page d'accueil",
-    "other": "autre"
+    "other": "autre",
+    "refresh": "Rafraichir",
+    "close": "Fermer"
+  },
+  "Error": {
+    "oops": "Oups, une erreur est survenue !"
   },
   "HomePage": {
     "title": "Bonjour le monde!",
