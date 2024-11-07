@@ -1,6 +1,6 @@
 
 # Hotel (Under construction🛠️)
-Website for a hotel
+Website for a hotel.
 Here's my project of a hotel located in different continent. The user can book a room in the hotel of his choice. There is a dashboard for the owner to manage the bookings but the client can also manage his booking.
 
 ## Tech Stack
