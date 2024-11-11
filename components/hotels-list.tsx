@@ -1,9 +1,9 @@
 import React from 'react';
-import { Hotel } from '@/types/index';
+import { Hotel, HotelWithRelations } from '@/types/index';
 import styles from './style.module.scss';
 
 interface HotelsListProps {
-  hotels: Hotel[];
+  hotels: HotelWithRelations[];
 }
 
 const HotelsList: React.FC<HotelsListProps> = ({ hotels }) => {

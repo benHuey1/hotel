@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic'
 // 'auto' | 'force-dynamic' | 'error' | 'force-static'
 
 import { ArrowBackIcon, PersonIcon } from '@/components/icons';
-import { Hotel, Option, Room } from '@/types';
+import { Hotel, HotelWithRelations, Option, Room } from '@/types';
 import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
 // import { PrismaClient } from '@prisma/client';
@@ -77,7 +77,7 @@ async function getHotel(hotelId: string, searchParams: { [key: string]: string |
 //   }
 // }const prisma = new PrismaClient();
 
-async function getHotels(): Promise<Hotel[]> {
+async function getHotels(): Promise<HotelWithRelations[]> {
   try {
     const hotels = await prisma.hotels.findMany({
       include: {
@@ -97,7 +97,7 @@ async function getHotels(): Promise<Hotel[]> {
 
 export default async function HotelPage({ params, searchParams }: { params: { hotelId: string, locale: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
   const hotel = await getHotel(params.hotelId, searchParams);
-  const countries: Hotel[] = await getHotels();
+  const countries: HotelWithRelations[] = await getHotels();
   // const [filteredRooms, setFilteredRooms] = useState<Room[]>(hotel.Rooms);
   // const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   

@@ -133,7 +133,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Room, Hotel, Option } from '@/types';
+import { Room, Hotel, Option, HotelWithRelations } from '@/types';
 import Caroussel from './caroussel';
 import { ArrowBackIcon, PersonIcon } from './icons';
 import { Link } from '@nextui-org/link';
@@ -146,7 +146,7 @@ interface HotelRoomsSectionProps {
   locale: string;
   translationsRooms: any;
   translationsExpandable: any;
-  countries: Hotel[];
+  countries: HotelWithRelations[];
   initialValues: any;
   finalValues: any;
   Rooms: Room[];
@@ -165,9 +165,9 @@ export default function HotelRoomsSection({
 }: HotelRoomsSectionProps) {
   // console.log("Les chambres, depuis HotelRoomsSection : ", Rooms);
   // console.log("L'hotel, depuis HotelRoomsSection : ", hotel);
-  console.log("Valeurs initiales - HotelRoomsSection", initialValues);
-  console.log("Valeurs finales - HotelRoomsSection", finalValues);
-  console.log("Locale - HotelRoomsSection", locale);
+  // console.log("Valeurs initiales - HotelRoomsSection", initialValues);
+  // console.log("Valeurs finales - HotelRoomsSection", finalValues);
+  // console.log("Locale - HotelRoomsSection", locale);
   
   const [displayedRooms, setDisplayedRooms] = useState<Room[]>(Rooms);
 
