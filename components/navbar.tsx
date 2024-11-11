@@ -168,7 +168,7 @@ export const Navbar: React.FC<NavbarProps> = (
       <NavbarMenu className="top-16">
         <div className='flex justify-between items-start'>
           <div className="mx-4 flex flex-col gap-2 mt-2">
-            {siteConfig.navItems.map((item, index) => (
+            {/* {siteConfig.navItems.map((item, index) => (
               <NavbarMenuItem key={`${item}-${index}`}>
                 <NextLink
                   key={index}
@@ -178,7 +178,25 @@ export const Navbar: React.FC<NavbarProps> = (
                   {item.label}
                 </NextLink>
               </NavbarMenuItem>
-            ))}
+            ))} */}
+             <NavbarMenuItem key='Customer-service-1'>
+                <NextLink
+                  key='Customer-service'
+                  href='/customer-service'
+                  onClick={handleLinkClick}
+                >
+                  {translations.translations.customerService}
+                </NextLink>
+              </NavbarMenuItem>
+             <NavbarMenuItem key='Connexion-2'>
+                <NextLink
+                  key='Connexion'
+                  href='/connexion'
+                  onClick={handleLinkClick}
+                >
+                  {translations.translations.connexion}
+                </NextLink>
+              </NavbarMenuItem>
           </div>
           {/* <div className='flex flex-col justify-end'>
             <CurrencyDropdown/>
