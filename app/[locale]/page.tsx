@@ -108,35 +108,20 @@ async function getHotels(): Promise<HotelWithRelations[]> {
         </div>
       </div>
       <div className="flex w-full flex-col items-start p-8">
-        <p className="text-lg">{t('intro_1_text_text1')}</p>
+        <h3 className="text-xl font-bold">{t('intro_1_text_text1')}</h3>
         <p>
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable Notre vision sera incroyable
-          Notre vision sera incroyable Notre vision sera incroyable
+          {t('intro_1_welcome')}
         </p>
       </div>
       <div className="flex w-full flex-col items-start p-8">
-        <p className="text-lg">{t('intro_1_text_text2')}</p>
+        <h3 className="text-xl font-bold">{t('intro_1_text_text2')}</h3>
         <div className="flex w-full justify-center">
           <HotelsList hotels={hotels} />
         </div>
       </div>
       <div className="flex w-full flex-col items-start p-8">
-        <p className="text-lg">{t('intro_1_text_text3')}</p>
+        <h3 className="text-xl font-bold">{t('intro_1_text_text3')}</h3>
+        <p>À venir</p>
       </div>
     </main>
   );
