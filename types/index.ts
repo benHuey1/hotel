@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { SVGProps } from 'react';
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
@@ -70,6 +71,25 @@ export interface SearchBookingProps {
   whichHotel: string;
 }
 
+export interface ExpandableTranslation {
+  room: string;
+  room_popup: string;
+  person_adult: string;
+  person_child: string;
+  person_popup: string;
+  which_hotel: string;
+  text: string;
+  textClose: string;
+}
+
+export interface ExpandableSearchSectionProps {
+  countries: Hotel[];
+  initialValues: any;
+  translationExpandable: ExpandableTranslation;
+  Rooms: Room[];
+  onFilteredRooms: (rooms: Room[]) => void;
+}
+
 export interface RoomProps {
   initialValues?: {
     rooms?: number;
@@ -100,7 +120,7 @@ export interface Hotel {
   capital: string;
   picture: string;
   localisation: string;
-  rooms?: Room[];
+  Rooms?: Room[];
 }
 
 export interface Room {
@@ -126,6 +146,16 @@ export interface Option {
   name: string;
   roomsId: string;
 }
+
+export type HotelWithRelations = Prisma.HotelsGetPayload<{
+  include: {
+    Rooms: {
+      include: {
+        options: true
+      }
+    }
+  }
+}>;
 
 // Type Animation button
 export interface AnimatedButtonArrowProps {
