@@ -11,14 +11,14 @@ import Image from 'next/image';
 import SearchBooking from '@/components/search-booking';
 // import { PrismaClient } from '@prisma/client';
 import HotelsList from '@/components/hotels-list';
-import { Hotel } from '@/types';
+import { Hotel, HotelWithRelations } from '@/types';
 import { prisma } from '@/lib/prisma';
 import { useTranslations } from 'next-intl';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 
 // const prisma = new PrismaClient();
 
-async function getHotels(): Promise<Hotel[]> {
+async function getHotels(): Promise<HotelWithRelations[]> {
   const hotels = await prisma.hotels.findMany({
     include: {
       Rooms: {
@@ -42,7 +42,7 @@ async function getHotels(): Promise<Hotel[]> {
   //   },
   // })
   // const countries: Hotel[] = await prisma.hotels.findMany();
-  const countries: Hotel[] = await getHotels();
+  const countries: HotelWithRelations[] = await getHotels();
   const hotels = await getHotels();
   return (
     <main className="flex min-h-screen w-full flex-col items-center gap-8">

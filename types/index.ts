@@ -40,16 +40,16 @@ export interface NavbarProps {
 export interface PopoverCountriesProps {
   // Define the expected props here
   classNameTrigger?: string;
-  countries: Hotel[];
+  countries: HotelWithRelations[];
   //  setCountry: React.Dispatch<React.SetStateAction<Hotel[]>>;
-  selectedCountry: Hotel | null;
-  setSelectedCountry: React.Dispatch<React.SetStateAction<Hotel | null>>;
+  selectedCountry: HotelWithRelations | null;
+  setSelectedCountry: React.Dispatch<React.SetStateAction<HotelWithRelations | null>>;
   whichHotel: string;
   // Other props...
 }
 
 export interface SearchBookingProps {
-  countries: Hotel[];
+  countries: HotelWithRelations[];
   roomWidth: string;
   familyWidth: string;
   countryWidth: string;
@@ -83,7 +83,7 @@ export interface ExpandableTranslation {
 }
 
 export interface ExpandableSearchSectionProps {
-  countries: Hotel[];
+  countries: HotelWithRelations[];
   initialValues: any;
   translationExpandable: ExpandableTranslation;
   Rooms: Room[];

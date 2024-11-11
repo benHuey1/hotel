@@ -12,7 +12,7 @@ import { Image } from '@nextui-org/react';
 import { DateRange } from 'react-day-picker';
 import { useRouter } from 'next/navigation';
 import CountriesList from './countries-list';
-import { Hotel, SearchBookingProps } from '@/types';
+import { Hotel, HotelWithRelations, SearchBookingProps } from '@/types';
 import { useLocale } from 'next-intl';
 
 const SearchBooking: React.FC<SearchBookingProps> = ({
@@ -32,7 +32,7 @@ const SearchBooking: React.FC<SearchBookingProps> = ({
 }) => {
   const [room, setRoom] = useState(initialValues?.rooms || 0);
   const [family, setFamily] = useState({ adults: initialValues?.adults || 0, children: initialValues?.children || 0 });
-  const [selectedCountry, setSelectedCountry] = useState<Hotel | null>( 
+  const [selectedCountry, setSelectedCountry] = useState<HotelWithRelations | null>( 
     initialValues?.selectedCountryId 
     ? countries.find(c => c.id === initialValues.selectedCountryId) || null 
     : null
