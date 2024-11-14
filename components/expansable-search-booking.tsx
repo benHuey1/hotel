@@ -5,7 +5,7 @@ import { Button } from '@nextui-org/button';
 import SearchBooking from '@/components/search-booking';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
-import { ExpandableSearchSectionProps, Hotel, Location, Room } from '@/types';
+import { ExpandableSearchSectionProps, Room } from '@/types';
 import { Checkbox } from '@nextui-org/react';
 import HotelOptionsList from './hotel-options-list';
 import MapBox from './map';

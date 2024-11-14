@@ -3,23 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-
-interface MapMarker {
-  id: string;
-  longitude: number;
-  latitude: number;
-  title: string;
-  description: string;
-}
-
-interface MapBoxProps {
-  markers?: MapMarker[];
-  center?: [number, number];
-  zoom?: number;
-  title?: string;
-  style?: string;
-  className?: string;
-}
+import { MapBoxProps } from '@/types';
 
 export default function MapBox({
   markers = [],
