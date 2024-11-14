@@ -180,7 +180,7 @@ export default function ExpandableSearchSection({
         <AnimatePresence initial={false}>
             <motion.div
             className={clsx(
-                'w-full overflow-hidden',
+                'w-full overflow-hidden flex flex-col items-center',
                 'lg:opacity-100 lg:hidden',
                 !isExpanded && 'lg:!h-auto'
             )}
@@ -209,7 +209,7 @@ export default function ExpandableSearchSection({
                     duration: 0.3,
                     ease: [0.4, 0, 0.2, 1],
                     }}
-                className="flex-col justify-center px-5 pb-5">
+                className="w-full md:w-2/3 lg:w-full px-5 pb-5">
                     <SearchBooking 
                         countries={countries}
                         layout='vertical'

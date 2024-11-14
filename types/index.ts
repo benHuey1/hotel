@@ -175,10 +175,10 @@ declare global {
   }
 }
 
-export interface GoogleMapMarker {
-  position: google.maps.LatLngLiteral;
-  title: string;
-}
+// export interface GoogleMapMarker {
+//   position: google.maps.LatLngLiteral;
+//   title: string;
+// }
 
 export interface GoogleMapProps {
   apiKey: string;
