@@ -119,10 +119,10 @@ async function getHotels(): Promise<HotelWithRelations[]> {
           <HotelsList hotels={hotels} />
         </div>
       </div>
-      <div className="flex w-full flex-col items-start p-8">
+      {/* <div className="flex w-full flex-col items-start p-8">
         <h3 className="text-xl font-bold">{t('intro_1_text_text3')}</h3>
         <p>À venir</p>
-      </div>
+      </div> */}
     </main>
   );
 }

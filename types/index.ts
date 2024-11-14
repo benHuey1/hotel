@@ -83,6 +83,7 @@ export interface ExpandableTranslation {
 }
 
 export interface ExpandableSearchSectionProps {
+  hotel: HotelWithRelations;
   countries: HotelWithRelations[];
   initialValues: any;
   translationExpandable: ExpandableTranslation;
@@ -164,4 +165,35 @@ export interface AnimatedButtonArrowProps {
   bgColor: string;
   textColor: string;
   //   color?: 'primary' | 'secondary' | 'tertiary';
+}
+
+declare global {
+  interface Window {
+    google: {
+      maps: any;
+    } | undefined;
+  }
+}
+
+export interface GoogleMapMarker {
+  position: google.maps.LatLngLiteral;
+  title: string;
+}
+
+export interface GoogleMapProps {
+  apiKey: string;
+  center: {
+    lat: number;
+    lng: number;
+  };
+  zoom: number;
+  locations: Location[];
+}
+
+export interface Location {
+  title: string;
+  position: {
+    lat: number;
+    lng: number;
+  };
 }
