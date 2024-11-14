@@ -121,7 +121,7 @@ export const Navbar: React.FC<NavbarProps> = (
       </NavbarContent>
       {/* <NavbarContent className="hidden basis-1/5 sm:flex sm:basis-full" justify="end"> */}
       <NavbarContent className="hidden basis-1/5 sm:flex sm:basis-full" justify="end">
-        <NavbarItem className="hidden gap-2 sm:flex">
+        <NavbarItem className="hidden lg:gap-2 sm:flex">
           <Link aria-label="Customer-Service" href="/customer-service" className="text-inherit">
             {/* {t('customerService')} */}
             {translations.translations.customerService}

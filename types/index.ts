@@ -167,33 +167,19 @@ export interface AnimatedButtonArrowProps {
   //   color?: 'primary' | 'secondary' | 'tertiary';
 }
 
-declare global {
-  interface Window {
-    google: {
-      maps: any;
-    } | undefined;
-  }
-}
-
-export interface GoogleMapMarker {
-  position: google.maps.LatLngLiteral;
+export interface MapMarker {
+  id: string;
+  longitude: number;
+  latitude: number;
   title: string;
+  description: string;
 }
 
-export interface GoogleMapProps {
-  apiKey: string;
-  center: {
-    lat: number;
-    lng: number;
-  };
-  zoom: number;
-  locations: Location[];
-}
-
-export interface Location {
-  title: string;
-  position: {
-    lat: number;
-    lng: number;
-  };
+export interface MapBoxProps {
+  markers?: MapMarker[];
+  center?: [number, number];
+  zoom?: number;
+  title?: string;
+  style?: string;
+  className?: string;
 }
