@@ -141,7 +141,7 @@ import { Button } from '@nextui-org/button';
 import ExpandableSearchSection from './expansable-search-booking';
 
 interface HotelRoomsSectionProps {
-  hotel: Hotel;
+  hotel: HotelWithRelations;
   bookingNights: number;
   locale: string;
   translationsRooms: any;
@@ -197,6 +197,7 @@ export default function HotelRoomsSection({
     <>
       <ExpandableSearchSection 
         countries={countries}
+        hotel={hotel}
         initialValues={initialValues}
         translationExpandable={translationsExpandable}
         Rooms={Rooms}
