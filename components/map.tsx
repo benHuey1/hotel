@@ -24,7 +24,7 @@ export default function MapBox({
     if (!mapContainer.current || map.current) return;
 
     // Initialiser la carte
-    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
+    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX || '';
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: style,

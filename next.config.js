@@ -16,6 +16,9 @@ const nextConfig = {
     // appDir: true, // to allow query parameters through the URL:
     serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
   },
+  env: {
+    NEXT_PUBLIC_MAPBOX: process.env.NEXT_PUBLIC_MAPBOX,
+  },
 };
 
 // module.exports = nextConfig;
