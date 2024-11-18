@@ -7,7 +7,9 @@
         "homepage": "Página principal",
         "other": "otro",
         "refresh": "Actualizar",
-        "close": "Cerrar"
+        "close": "Cerrar",
+        "backToRooms": "Volver a las habitaciones",
+        "booking": "Reservar"
       },
       "Error": {
         "oops": "Oops, ¡se ha producido un error!"
@@ -40,5 +42,8 @@
       "person_child": "niño(s)",
       "person_popup": "Número de personas",
       "which_hotel": "¿ Qué hotel ?"
+    },
+    "RoomPage": {
+      "rooms": "Habitaciónes"
     }
 }

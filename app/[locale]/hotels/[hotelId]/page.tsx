@@ -42,7 +42,7 @@ const Caroussel = dynamics(() => import('@/components/caroussel'), { ssr: false 
 //   }));
 // }
 //  -----------------------------------------------------
-async function getHotel(hotelId: string, searchParams: { [key: string]: string | string[] | undefined }) {
+export async function getHotel(hotelId: string, searchParams: { [key: string]: string | string[] | undefined }) {
   try {
     const queryString = new URLSearchParams(searchParams as Record<string, string>).toString();
     // const res = await fetch(`http://localhost:3000/api/hotels/${hotelId}?${queryString}`, { cache: 'no-store' });
@@ -77,7 +77,7 @@ async function getHotel(hotelId: string, searchParams: { [key: string]: string |
 //   }
 // }const prisma = new PrismaClient();
 
-async function getHotels(): Promise<HotelWithRelations[]> {
+export async function getHotels(): Promise<HotelWithRelations[]> {
   try {
     const hotels = await prisma.hotels.findMany({
       include: {
