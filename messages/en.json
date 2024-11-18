@@ -7,7 +7,9 @@
     "homepage": "Homepage",
     "other": "other",
     "refresh": "Refresh",
-    "close": "Close"
+    "close": "Close",
+    "backToRooms": "Back to rooms",
+    "booking": "Book"
   },
   "Error": {
     "oops": "Oops, an error has occurred !"
@@ -40,5 +42,8 @@
     "person_child": "child(ren)",
     "person_popup": "Number of people",
     "which_hotel": "Which hotel ?"
+  },
+  "RoomPage": {
+    "rooms": "Rooms"
   }
 }
