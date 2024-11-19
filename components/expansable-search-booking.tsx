@@ -23,7 +23,7 @@ export default function ExpandableSearchSection({
   onFilteredRooms
 }: ExpandableSearchSectionProps) {
   // console.log("Les chambres, Expandable page : ", Rooms);
-  console.log("L'Hotel, Expandable page : ", hotel);
+  // console.log("L'Hotel, Expandable page : ", hotel);
   const [isHovered, setIsHovered] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({});
