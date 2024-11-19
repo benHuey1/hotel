@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import clsx from 'clsx';
+import { useDisclosure } from '@nextui-org/react';
 
 interface RoomSectionProps {
   hotel: HotelWithRelations;
@@ -18,6 +19,7 @@ interface RoomSectionProps {
 
 export default function RoomSection({ hotel, room, backUrl, translationsRoom }: RoomSectionProps) {
 
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
   if (!room) {
     return (
       <div className="w-full flex flex-col items-center justify-center p-8">

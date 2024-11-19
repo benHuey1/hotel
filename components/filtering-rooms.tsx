@@ -139,6 +139,9 @@ import { ArrowBackIcon, PersonIcon } from './icons';
 import { Link } from '@nextui-org/link';
 import { Button } from '@nextui-org/button';
 import ExpandableSearchSection from './expansable-search-booking';
+import router from 'next/router';
+import { useRouter } from 'next/navigation';
+import BookingValidationModal from './booking-validation-modal';
 
 interface HotelRoomsSectionProps {
   hotel: HotelWithRelations;
@@ -170,6 +173,9 @@ export default function HotelRoomsSection({
   // console.log("Locale - HotelRoomsSection", locale);
   
   const [displayedRooms, setDisplayedRooms] = useState<Room[]>(Rooms);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+  const router = useRouter();
 
   // Fonction pour construire l'URL avec les paramètres de recherche
   const buildRoomUrl = (roomId: string) => {
@@ -191,6 +197,23 @@ export default function HotelRoomsSection({
   // Gestionnaire pour la mise à jour des chambres filtrées
   const handleFilteredRooms = (filteredRooms: Room[]) => {
     setDisplayedRooms(filteredRooms);
+  };
+
+  const handleRoomDetails = (room: Room) => {
+    // Vérifier si toutes les informations nécessaires sont présentes
+    if (
+      !finalValues.adults ||
+      finalValues.adults < 1 ||
+      !finalValues.startDate ||
+      !finalValues.endDate
+    ) {
+      setSelectedRoom(room);
+      setShowBookingModal(true);
+      return;
+    }
+    
+    // Si tout est OK, naviguer vers la page de la chambre
+    router.push(buildRoomUrl(room.id));
   };
 
   return (
@@ -267,10 +290,12 @@ export default function HotelRoomsSection({
                           <div className='flex flex-col-reverse md:flex-row md:justify-start gap-4'>
                             <div className='w-full md:w-1/5 text-center'>
                               {/* <Link href={`/hotels/${hotel.id}/rooms/${room.id}`}> */}
-                              <Link href={buildRoomUrl(room.id)}>
+                              {/* <Link href={buildRoomUrl(room.id)}> */}
+                              {/* <Link onClick={() => handleRoomClick(room.id)}> */}
                               {/* <Link href={`/${params.locale}/hotels/${params.hotelId}?rooms=${room}&adults=${adultsNum}&children=${childrenNum}&start=${startDate?.toLocaleDateString().split('T')[0]}&end=${endDate?.toLocaleDateString().split('T')[0]}/rooms/${room.id}`}> */}
-                                <Button color="secondary">{translationsRooms.details}</Button>
-                              </Link>
+                                <Button onPress={() => handleRoomDetails(room)} color="secondary">{translationsRooms.details}</Button>
+                                {/* <Button onClick={() => handleRoomClick(room.id)} color="secondary">{translationsRooms.details}</Button> */}
+                              {/* </Link> */}
                             </div>
                             <div className='w-full flex justify-between'>
                               <p className='underline underline-offset-4 content-center'><b>{room.cost} €</b>/{translationsRooms.night}</p>
@@ -305,6 +330,19 @@ export default function HotelRoomsSection({
                 {translationsRooms.homepage}
               </Button>
             </Link>
+            <BookingValidationModal
+              isOpen={showBookingModal}
+              onOpenChange={() => setShowBookingModal(false)}
+              translations={{
+                title: "Complétez vos informations de réservation",
+                subtitle: "Certaines informations sont nécessaires pour continuer",
+                rooms: "Chambres",
+                adults: "Adultes",
+                children: "Enfants",
+                dates: "Dates du séjour",
+                cancel: "Ok",
+              }}
+            />
           </div>
     </>
   );
