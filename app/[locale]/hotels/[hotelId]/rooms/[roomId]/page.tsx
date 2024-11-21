@@ -182,7 +182,8 @@ export default async function RoomPage({
   })}`;
   const translationsRoom = {
     back: tGen('backToRooms'),
-    booking: tGen('booking')
+    booking: tGen('booking'),
+    its_time: tGen('itsTime')
   };
 
   return (
