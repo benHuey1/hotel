@@ -9,7 +9,8 @@
         "refresh": "Actualizar",
         "close": "Cerrar",
         "backToRooms": "Volver a las habitaciones",
-        "booking": "Reservar"
+        "booking": "Reservar",
+        "itsTime": "Es hora de "
       },
       "Error": {
         "oops": "Oops, ¡se ha producido un error!"

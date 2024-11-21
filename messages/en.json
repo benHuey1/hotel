@@ -9,7 +9,8 @@
     "refresh": "Refresh",
     "close": "Close",
     "backToRooms": "Back to rooms",
-    "booking": "Book"
+    "booking": "Book",
+    "itsTime": "It's time to "
   },
   "Error": {
     "oops": "Oops, an error has occurred !"

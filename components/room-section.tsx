@@ -9,6 +9,9 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import clsx from 'clsx';
 import { useDisclosure } from '@nextui-org/react';
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import AuthModal from './auth-modal';
 
 interface RoomSectionProps {
   hotel: HotelWithRelations;
@@ -18,6 +21,25 @@ interface RoomSectionProps {
 }
 
 export default function RoomSection({ hotel, room, backUrl, translationsRoom }: RoomSectionProps) {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const { data: session } = useSession();
+
+  const handleBookingClick = () => {
+    if (!session) {
+      setIsAuthModalOpen(true);
+      return;
+    } else {
+      // Rediriger vers la page de réservation
+      // router.push(`/booking/${room.id}`);
+      alert("Ok, you'll be redirected");
+    }
+  };
+  const handleAuthSuccess = () => {
+    setIsAuthModalOpen(false);
+    // Rediriger vers la page de réservation
+    // router.push(`/booking/${room.id}`);
+      alert("Ok, you'll be redirected")
+  };
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   if (!room) {
@@ -70,13 +92,14 @@ export default function RoomSection({ hotel, room, backUrl, translationsRoom }: 
                         height={30}
                         // sizes="(max-width: 50px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
-                    <Link href=''>
+                    {/* <Link href=''> */}
                         <Button
+                            onClick={handleBookingClick}
                             className="bg-primary text-white hover:bg-gray-500 transition-colors"
                         >
                             {translationsRoom.booking}
                         </Button>
-                    </Link>
+                    {/* </Link> */}
                 </div>
             </motion.div>
           {room.options && room.options.length > 0 ? (
@@ -146,6 +169,7 @@ export default function RoomSection({ hotel, room, backUrl, translationsRoom }: 
                             </li>
                         </ul>
                     </motion.div>
+                    <hr className='block md:hidden w-1/3 m-auto my-5 border-medium border-[#0000006b] rounded-xl'/>
                     <motion.div
                         initial={{ opacity: 0, x: 200 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -166,20 +190,39 @@ export default function RoomSection({ hotel, room, backUrl, translationsRoom }: 
                         </p>
                     </motion.div>
                 </div>
+                <div className='flex justify-center items-center gap-5'>
+                  <p>{translationsRoom.its_time}</p>
+                  {/* <Link href=''> */}
+                    <Button
+                      onClick={handleBookingClick}
+                      className="bg-primary text-white hover:bg-gray-500 transition-colors"
+                    >
+                      {translationsRoom.booking}
+                    </Button>
+                  {/* </Link> */}
+                  <p>!</p>
+                </div>
                 <hr className='w-2/3 m-auto border-medium border-[#0000006b] rounded-xl'/>
             </div>
             </>
           ) : (
             <p className="text-gray-500 italic">Pas d'options disponibles</p>
           )}
-        <Link href={backUrl}>
-          <Button
-            className="mt-8 bg-tertiary text-white hover:bg-gray-500 transition-colors"
-            startContent={<ArrowBackIcon fillColor="white" />}
-          >
-            {translationsRoom.back}
-          </Button>
-        </Link>
+          <div className='flex justify-center items-center'>
+            <Link href={backUrl}>
+              <Button
+                className="mt-8 bg-tertiary text-white hover:bg-gray-500 transition-colors"
+                startContent={<ArrowBackIcon fillColor="white" />}
+              >
+                {translationsRoom.back}
+              </Button>
+            </Link>
+          </div>
+          <AuthModal
+            isOpen={isAuthModalOpen}
+            onClose={() => setIsAuthModalOpen(false)}
+            onSuccess={handleAuthSuccess}
+          />
       {/* </div> */}
     </main>
   );
