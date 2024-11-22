@@ -5,6 +5,7 @@ import { z } from 'zod';
 // import { createTransport } from 'nodemailer';
 import nodemailer from "nodemailer";
 import crypto from 'crypto';
+import { locales } from '@/config/config';
 
 interface EmailBody {
   email: string;
@@ -25,11 +26,25 @@ interface EmailBody {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  debug: true, // Activer les logs pour le debug
+  logger: true, // Activer les logs détaillés
   tls: {
-    rejectUnauthorized: false,
+    rejectUnauthorized: false, // À utiliser uniquement en développement
   },
   });
   
+// Ajouter une vérification de la connexion
+async function verifyEmailConfig() {
+  try {
+    await transporter.verify();
+    console.log('Email configuration verified');
+    return true;
+  } catch (error) {
+    console.error('Email configuration error:', error);
+    return false;
+  }
+}
+
 const registerSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
@@ -40,7 +55,22 @@ const registerSchema = z.object({
 });
 
 export async function POST(req: Request) {
+  console.log('Starting registration process');
+  console.log('Environment variables check:', {
+    hasEmailUser: !!process.env.EMAIL_USER,
+    hasEmailPass: !!process.env.EMAIL_PASS,
+    nextAuthUrl: process.env.NEXTAUTH_URL
+  });
   try {
+    // Vérifier la configuration email d'abord
+    const isEmailConfigValid = await verifyEmailConfig();
+    if (!isEmailConfigValid) {
+      return NextResponse.json(
+        { message: 'Email service configuration error' },
+        { status: 500 }
+      );
+    }
+
     const body = (await req.json()) as EmailBody;
     const validation = registerSchema.safeParse(body);
 
@@ -95,9 +125,12 @@ export async function POST(req: Request) {
 
     // Construire l'URL de vérification avec les paramètres de la chambre
     // const verificationUrl = `${process.env.NEXTAUTH_URL}/verify-email/${verificationToken.token}?roomId=${roomId}&hotelId=${hotelId}`;
-    const verificationUrl = `${process.env.NEXTAUTH_URL}/verify-email/`;
+    const verificationUrl = `${process.env.NEXTAUTH_URL}/${locales}/verify-email/`;
+
+    console.log('Preparing to send email to:', email);
 
     // Envoyer l'email
+    try {
     await transporter.sendMail({
       from: `"Hotel Karibu" <${process.env.EMAIL_USER}>`,
       to: `${email}`,
@@ -116,6 +149,18 @@ export async function POST(req: Request) {
         <a href="${verificationUrl}">Vérifier mon email</a>
       `,
     });
+  } catch (emailError) {
+    console.error('Email sending error:', emailError);
+    return NextResponse.json(
+      { 
+        message: 'Failed to send verification email',
+        error: emailError instanceof Error ? emailError.message : 'Unknown error'
+      },
+      { status: 500 }
+    );
+  }
+  
+console.log('Email sent successfully');
 
     return NextResponse.json(
       { message: 'User created successfully' },
