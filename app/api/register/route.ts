@@ -26,8 +26,8 @@ interface EmailBody {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  debug: true, // Activer les logs pour le debug
-  logger: true, // Activer les logs détaillés
+  // debug: true, // Activer les logs pour le debug
+  // logger: true, // Activer les logs détaillés
   tls: {
     rejectUnauthorized: false, // À utiliser uniquement en développement
   },
@@ -55,12 +55,12 @@ const registerSchema = z.object({
 });
 
 export async function POST(req: Request) {
-  console.log('Starting registration process');
-  console.log('Environment variables check:', {
-    hasEmailUser: !!process.env.EMAIL_USER,
-    hasEmailPass: !!process.env.EMAIL_PASS,
-    nextAuthUrl: process.env.NEXTAUTH_URL
-  });
+  // console.log('Starting registration process');
+  // console.log('Environment variables check:', {
+  //   hasEmailUser: !!process.env.EMAIL_USER,
+  //   hasEmailPass: !!process.env.EMAIL_PASS,
+  //   nextAuthUrl: process.env.NEXTAUTH_URL
+  // });
   try {
     // Vérifier la configuration email d'abord
     const isEmailConfigValid = await verifyEmailConfig();
@@ -71,7 +71,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const body = (await req.json()) as EmailBody;
+    const body = (await req.json()) as EmailBody & { roomId: string };
     const validation = registerSchema.safeParse(body);
 
     if (!validation.success) {
@@ -120,14 +120,15 @@ export async function POST(req: Request) {
           id: crypto.randomUUID(),
           token: crypto.randomUUID(),
           expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Expire dans 24h
+          roomId:  body.roomId,
         },
       });
 
     // Construire l'URL de vérification avec les paramètres de la chambre
     // const verificationUrl = `${process.env.NEXTAUTH_URL}/verify-email/${verificationToken.token}?roomId=${roomId}&hotelId=${hotelId}`;
-    const verificationUrl = `${process.env.NEXTAUTH_URL}/${locales}/verify-email/`;
+    const verificationUrl = `${process.env.NEXTAUTH_URL}/verify-email/${verificationToken.token}?roomId=${body.roomId}`;
 
-    console.log('Preparing to send email to:', email);
+    // console.log('Preparing to send email to:', email);
 
     // Envoyer l'email
     try {

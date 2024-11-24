@@ -101,6 +101,7 @@ model VerificationToken {
   id      String   @id @map("_id")
   token   String   @unique
   expires DateTime
+  roomId  String
 
   @@unique([id, token])
 }

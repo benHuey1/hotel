@@ -222,6 +222,7 @@ export default function RoomSection({ hotel, room, backUrl, translationsRoom }: 
             isOpen={isAuthModalOpen}
             onClose={() => setIsAuthModalOpen(false)}
             onSuccess={handleAuthSuccess}
+            roomId={room.id}
           />
       {/* </div> */}
     </main>
