@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, Button, Input, Tabs, Tab } from "@nextui-org/react";
 import { signIn } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -21,13 +21,27 @@ const registerSchema = z.object({
   phoneNumber: z.string().min(6),
 });
 
+// Type inféré du schema
+type RegisterFormData = z.infer<typeof registerSchema>;
+
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  roomId: string;
 }
 
-export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
+interface SignupData {
+  email: string;
+  password: string;
+  name: string;
+  firstname: string;
+  country: string;
+  phoneNumber: string;
+  roomId: string;
+}
+
+export default function AuthModal({ isOpen, onClose, onSuccess, roomId }: AuthModalProps) {
   const [tab, setTab] = useState("login");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -36,7 +50,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
     resolver: zodResolver(loginSchema)
   });
 
-  const { register: registerSignup, handleSubmit: handleSubmitSignup } = useForm({
+  const { register: registerSignup, handleSubmit: handleSubmitSignup } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema)
   });
 
@@ -64,11 +78,16 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
     }
   };
 
-  const handleSignup = async (data: any) => {
+  const handleSignup: SubmitHandler<RegisterFormData> = async (formData) => {
     try {
       setIsLoading(true);
       setError("");
 
+      const data = {
+        ...formData,
+        roomId
+      };
+      
       const response = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -80,14 +99,17 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
         throw new Error(error.message);
       }
 
-      // Auto login after registration
-      await signIn('credentials', {
-        redirect: false,
-        email: data.email,
-        password: data.password,
-      });
-
+      // // Auto login after registration
+      // await signIn('credentials', {
+      //   redirect: false,
+      //   email: data.email,
+      //   password: data.password,
+      // });
+ // Fermer la modal et afficher un message de confirmation
       onSuccess();
+    // onClose();
+    alert("Un email de vérification vous a été envoyé. Veuillez cliquer sur le lien dans l'email pour finaliser votre inscription.");
+
     } catch (error: any) {
       setError(error.message);
     } finally {
