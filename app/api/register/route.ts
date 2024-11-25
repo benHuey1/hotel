@@ -121,6 +121,7 @@ export async function POST(req: Request) {
           token: crypto.randomUUID(),
           expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Expire dans 24h
           roomId:  body.roomId,
+          userId: userId
         },
       });
 

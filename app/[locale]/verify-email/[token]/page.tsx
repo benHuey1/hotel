@@ -15,53 +15,42 @@ export default function VerifyEmail({ params }: { params: { token: string } }) {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
+        console.log('Verifying with token:', params.token); // Debug
+        console.log('RoomId:', roomId); // Debug
+
         const response = await fetch('/api/verify-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             token: params.token,
-            roomId: roomId
+            roomId 
           })
         });
 
         const data = await response.json();
+        console.log('API Response:', data); // Debug
 
         if (!response.ok) {
           setStatus('error');
           setMessage(data.message || 'Une erreur est survenue lors de la vérification');
-          // Redirection vers la page d'accueil après 3 secondes en cas d'erreur
           setTimeout(() => router.push('/'), 3000);
           return;
         }
 
-        // Si la vérification est réussie
         setStatus('success');
-        setMessage('Email vérifié avec succès ! Redirection vers la page de réservation...');
-
-        // Login automatique avec les credentials stockés dans le token de vérification
-        if (data.email && data.password) {
-          const result = await signIn('credentials', {
-            redirect: false,
-            email: data.email,
-            password: data.password,
-          });
-
-          if (result?.error) {
-            setStatus('error');
-            setMessage('Erreur lors de la connexion automatique');
-            return;
-          }
-          
-          // Redirection vers la page de réservation avec le roomId
+        setMessage('Email vérifié avec succès ! Redirection...');
+        
+        // Redirection simple pour commencer
+        setTimeout(() => {
           if (data.roomId) {
-            // setTimeout(() => router.push(`/booking/${data.roomId}`), 2000);
-        setMessage('Redirection avec succès, construction de la page Booking en cours !');
-            setTimeout(() => router.push('/'), 2000);
+            router.push(`/booking/${data.roomId}`);
           } else {
-            setTimeout(() => router.push('/'), 2000);
+            router.push('/');
           }
-        }
+        }, 2000);
+
       } catch (error) {
+        console.error('Verification error:', error); // Debug
         setStatus('error');
         setMessage('Une erreur est survenue lors de la vérification');
         setTimeout(() => router.push('/'), 3000);
@@ -71,8 +60,9 @@ export default function VerifyEmail({ params }: { params: { token: string } }) {
     verifyEmail();
   }, [params.token, roomId, router]);
 
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
         <div className="text-center">
           {status === 'verifying' && (
