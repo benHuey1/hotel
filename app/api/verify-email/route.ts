@@ -6,14 +6,12 @@ export async function POST(req: Request) {
   try {
     const { token, roomId } = await req.json();
 
-    console.log('Verification attempt for token:', token); // Debug log
+    console.log('Received token:', token); // Pour le debug
+    console.log('Received roomId:', roomId); // Pour le debug
 
     // Rechercher le token
     const verificationToken = await prisma.verificationToken.findUnique({
-      where: { token },
-      include: {
-        user: true // Inclure les données de l'utilisateur associé
-      }
+      where: { token }
     });
 
     console.log('Found token:', verificationToken); // Pour le debug
@@ -36,30 +34,22 @@ export async function POST(req: Request) {
       );
     }
 
-    // Vérifier si un utilisateur est associé au token
-    if (!verificationToken.userId) {
+    // Trouver l'utilisateur associé
+    const user = await prisma.user.findFirst({
+        where: {
+          emailVerified: null // Chercher un utilisateur non vérifié
+        },
+        orderBy: {
+          createdAt: 'desc' // Prendre le plus récent
+        }
+      });
+  
+      if (!user) {
         return NextResponse.json(
-          { message: 'Aucun utilisateur associé à ce token' },
-          { status: 400 }
+          { message: 'Utilisateur non trouvé' },
+          { status: 404 }
         );
       }
-
-    // // Trouver l'utilisateur associé
-    // const user = await prisma.user.findFirst({
-    //     where: {
-    //       emailVerified: null // Chercher un utilisateur non vérifié
-    //     },
-    //     orderBy: {
-    //       createdAt: 'desc' // Prendre le plus récent
-    //     }
-    //   });
-  
-    //   if (!user) {
-    //     return NextResponse.json(
-    //       { message: 'Utilisateur non trouvé' },
-    //       { status: 404 }
-    //     );
-    //   }
 
     // // Mettre à jour l'utilisateur
     // await prisma.user.update({
@@ -69,25 +59,13 @@ export async function POST(req: Request) {
     //   }
     // });
 
-        // // Mettre à jour l'utilisateur
-        // const updatedUser = await prisma.user.update({
-        //     where: { id: user.id },
-        //     data: {
-        //       emailVerified: new Date()
-        //     }
-        //   });
-        
-    // Mettre à jour l'utilisateur en utilisant l'userId du token
-    const updatedUser = await prisma.user.update({
-        where: { 
-          id: verificationToken.userId 
-        },
-        data: {
-          emailVerified: new Date()
-        }
-      });
-
-      console.log('Updated user:', updatedUser); // Debug log
+        // Mettre à jour l'utilisateur
+        const updatedUser = await prisma.user.update({
+            where: { id: user.id },
+            data: {
+              emailVerified: new Date()
+            }
+          });
 
     // Supprimer le token utilisé
     await prisma.verificationToken.delete({
