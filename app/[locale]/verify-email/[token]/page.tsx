@@ -1,7 +1,7 @@
 // /app/[locale]/verify-email/[token]/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 
@@ -11,9 +11,12 @@ export default function VerifyEmail({ params }: { params: { token: string } }) {
   const roomId = searchParams.get('roomId');
   const [status, setStatus] = useState<'verifying' | 'success' | 'error'>('verifying');
   const [message, setMessage] = useState('Vérification de votre email en cours...');
+  const verificationAttempted = useRef(false);
 
   useEffect(() => {
     const verifyEmail = async () => {
+      if (verificationAttempted.current) return;
+      verificationAttempted.current = true;
       try {
         console.log('Verifying with token:', params.token); // Debug
         console.log('RoomId:', roomId); // Debug
@@ -30,7 +33,8 @@ export default function VerifyEmail({ params }: { params: { token: string } }) {
         const data = await response.json();
         console.log('API Response:', data); // Debug
 
-        if (!response.ok) {
+        // if (!response.ok) {
+        if (!response.ok || !data.success) {
           setStatus('error');
           setMessage(data.message || 'Une erreur est survenue lors de la vérification');
           setTimeout(() => router.push('/'), 3000);
@@ -43,7 +47,8 @@ export default function VerifyEmail({ params }: { params: { token: string } }) {
         // Redirection simple pour commencer
         setTimeout(() => {
           if (data.roomId) {
-            router.push(`/booking/${data.roomId}`);
+            // router.push(`/booking/${data.roomId}`);
+            router.push('/');
           } else {
             router.push('/');
           }
