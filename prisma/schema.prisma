@@ -83,18 +83,19 @@ model Session {
 }
 
 model User {
-  id             String    @id @map("_id")
-  name           String
-  firstname      String
-  country        String
-  phoneNumber    String
-  email          String    @unique
-  hashedPassword String? // Nouveau champ
-  emailVerified  DateTime?
-  Account        Account[]
-  Session        Session[]
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id                 String              @id @map("_id")
+  name               String
+  firstname          String
+  country            String
+  phoneNumber        String
+  email              String              @unique
+  hashedPassword     String? // Nouveau champ
+  emailVerified      DateTime?
+  Account            Account[]
+  Session            Session[]
+  verificationTokens VerificationToken[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
 }
 
 model VerificationToken {
@@ -102,6 +103,8 @@ model VerificationToken {
   token   String   @unique
   expires DateTime
   roomId  String
+  userId  String? // Ajout de cette ligne
+  user    User?    @relation(fields: [userId], references: [id])
 
   @@unique([id, token])
 }
