@@ -56,6 +56,27 @@ export async function POST(req: Request) {
           { status: 400 }
         );
       }
+          // Trouver la chambre avec l'hôtel associé
+    const room = await prisma.rooms.findUnique({
+        where: { id: verificationToken.roomId },
+        include: {
+          Hotels: {
+            select: {
+              id: true
+            }
+          }
+        }
+      });
+
+      if (!room) {
+        return NextResponse.json(
+          { 
+            success: false,
+            message: 'Chambre non trouvée'
+          },
+          { status: 404 }
+        );
+      }
 
     // // Trouver l'utilisateur associé
     // const user = await prisma.user.findFirst({
@@ -71,12 +92,22 @@ export async function POST(req: Request) {
     const user = await prisma.user.findUnique({
         where: {
           id: verificationToken.userId // Utiliser l'userId du token
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          firstname: true,
+          emailVerified: true,
         }
       });
   
       if (!user) {
         return NextResponse.json(
-          { message: 'Utilisateur non trouvé' },
+          { 
+            success: false,
+            message: 'Utilisateur non trouvé'
+         },
           { status: 404 }
         );
       }
@@ -104,9 +135,16 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
         success: true, // Important d'ajouter ce champ
-      message: 'Email vérifié avec succès',
-      email: updatedUser.email,
-      roomId: verificationToken.roomId
+        message: 'Email vérifié avec succès',
+        // email: updatedUser.email,
+        user: {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            firstname: user.firstname,
+        },
+        roomId: verificationToken.roomId,
+        hotelId: room.hotelId
     }, { status: 200 });
   } catch (error) {
     console.error('Verification error:', error);

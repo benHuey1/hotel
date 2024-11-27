@@ -26,7 +26,7 @@ export default function VerifyEmail({ params }: { params: { token: string } }) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             token: params.token,
-            roomId 
+            roomId ,
           })
         });
 
@@ -44,11 +44,32 @@ export default function VerifyEmail({ params }: { params: { token: string } }) {
         setStatus('success');
         setMessage('Email vérifié avec succès ! Redirection...');
         
+        const signInResult = await signIn('credentials', {
+          redirect: false,
+          email: data.user.email,
+          // Ici, nous devrons peut-être gérer différemment le mot de passe
+          // Une option serait de créer un token temporaire pour la première connexion
+          callbackUrl: data.roomId && data.hotelId 
+            ? `//hotels/${data.hotelId}/rooms/${data.roomId}`
+            : `/`
+        });
+
+        if (signInResult?.error) {
+          setStatus('error');
+          setMessage('Erreur lors de la connexion automatique');
+          setTimeout(() => router.push(`/`), 3000);
+          return;
+        }
+
         // Redirection simple pour commencer
         setTimeout(() => {
-          if (data.roomId) {
+          console.log("Hotel ID", data.hotelId);
+          console.log("Room ID", data.roomId);
+          
+          if (data.roomId && data.hotelId) {
             // router.push(`/booking/${data.roomId}`);
-            router.push('/');
+            router.push(`/hotels/${data.hotelId}/rooms/${roomId}`)
+            // router.push('/');
           } else {
             router.push('/');
           }

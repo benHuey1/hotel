@@ -55,6 +55,8 @@ const registerSchema = z.object({
 });
 
 export async function POST(req: Request) {
+  const { searchParams } = new URL(req.url);
+  console.log("Here's the SearchParams", searchParams);
   // console.log('Starting registration process');
   // console.log('Environment variables check:', {
   //   hasEmailUser: !!process.env.EMAIL_USER,
